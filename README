@@ -1,0 +1,10 @@
+README for PAGE
+
+(c) 2012 Miterfish Studios
+Justin Renga
+
+PAGE -> Pure-Abstract Game Engine
+
+PAGE allows developers to create objects from abstract object types,
+such as Actor or Mesh, to construct their game with extreme
+flexibility.
