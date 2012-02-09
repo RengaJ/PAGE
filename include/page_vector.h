@@ -25,7 +25,7 @@ namespace PAGE
 			float operator[](const int i) { return (i%2 == 0 ? x : y); }
 			
 			friend std::ostream& operator<<(std::ostream &out, Vector2 point)
-			{ out << "( " << point.x << ", " << point.y << ")"; return out; }
+			{ out << "( " << point.x << ", " << point.y << " )"; return out; }
 			friend std::istream& operator>>(std::istream &in, Vector2 point)
 			{ in >> point.x >> point.y; return in; }
 
@@ -62,7 +62,7 @@ namespace PAGE
 			float operator[](const int i) { return (i%3 == 0 ? x : i%3 == 1 ? y : z); }
 			
 			friend std::ostream& operator<<(std::ostream &out, Vector3 point)
-			{ out << "( " << point.x << ", " << point.y << ", " << point.z << ")"; return out; }
+			{ out << "( " << point.x << ", " << point.y << ", " << point.z << " )"; return out; }
 			friend std::istream& operator>>(std::istream &in, Vector3 point)
 			{ in >> point.x >> point.y >> point.z; return in; }
 
@@ -103,7 +103,7 @@ namespace PAGE
 			float operator[](const int i) { return (i%4 == 0 ? x : i%4 == 1 ? y : i%4 == 2 ? z : w); }
 			
 			friend std::ostream& operator<<(std::ostream &out, Vector4 point)
-			{ out << "( " << point.x << ", " << point.y << ", " << point.z << ", " << point.w << ")"; return out; }
+			{ out << "( " << point.x << ", " << point.y << ", " << point.z << ", " << point.w << " )"; return out; }
 			friend std::istream& operator>>(std::istream &in, Vector4 point)
 			{ in >> point.x >> point.y >> point.z >> point.w; return in; }
 
