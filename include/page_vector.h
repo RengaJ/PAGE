@@ -24,21 +24,18 @@ namespace PAGE
 			bool operator!=(const Vector2 &point) { return x != point.x || y != point.y; }
 			float operator[](const int i) { return (i%2 == 0 ? x : y); }
 			
-			friend ostream& operator<<(ostream &out, Vector2 &point)
-			{ out << "( " << x << ", " << y << ")"; return out; }
-			friend istream& operator>>(istream &in, Vector2 &point)
+			friend std::ostream& operator<<(std::ostream &out, Vector2 point)
+			{ out << "( " << point.x << ", " << point.y << ")"; return out; }
+			friend std::istream& operator>>(std::istream &in, Vector2 point)
 			{ in >> point.x >> point.y; return in; }
-			
-			Vector3 operator Vector3() { return Vector3(x,y); }
-			Vector4 operator Vector4() { return Vector4(x,y); }
-			
+
 			Vector2 normalize()	{ float length = magnitude(); return Vector2(x/length, y/length); }
 			float magnitude_squared() { return pow(x,2) + pow(y,2); }
 			float magnitude() { return sqrt(pow(x,2) + pow(y,2)); }
 			float dot(Vector2 &point) { return x*point.x + y*point.y; }
 			static float dot(Vector2 &lhs, Vector2 &rhs) { return lhs.dot(rhs); }
 			
-			Vector2 lerp(Vector2 &to, float weight) { weight = clampf01(weight); return (1 - weight) * Vector2(x,y) + weight * to; }
+			Vector2 lerp(Vector2 &to, float weight) { weight = clampf01(weight); return ((1 - weight) * (*this)) + weight * to; }
 			
 			float x, y;
 	}; // end Vector2
@@ -64,14 +61,11 @@ namespace PAGE
 			bool operator!=(const Vector3 &point) { return x != point.x || y != point.y || z != point.z; }
 			float operator[](const int i) { return (i%3 == 0 ? x : i%3 == 1 ? y : z); }
 			
-			friend ostream& operator<<(ostream &out, Vector3 &point)
-			{ out << "( " << x << ", " << y << ", " << z << ")"; return out; }
-			friend istream& operator>>(istream &in, Vector3 &point)
+			friend std::ostream& operator<<(std::ostream &out, Vector3 point)
+			{ out << "( " << point.x << ", " << point.y << ", " << point.z << ")"; return out; }
+			friend std::istream& operator>>(std::istream &in, Vector3 point)
 			{ in >> point.x >> point.y >> point.z; return in; }
-		
-			Vector2 operator Vector2() { return Vector2(x,y); }
-			Vector4 operator Vector4() { return Vector4(x,y,z); }
-		
+
 			Vector3 normalize() { float length = magnitude(); return Vector3(x/length, y/length, z/length); }
 			float magnitude_squared() { return pow(x,2) + pow(y,2) + pow(z,2); }
 			float magnitude() { return sqrt(pow(x,2) + pow(y,2) + pow(z,2)); }
@@ -92,7 +86,7 @@ namespace PAGE
 			Vector4(float pX, float pY) : x(pY), y(pY), z(0.0f), w(0.0f) {}
 			Vector4(Vector2 &point) : x(point.x), y(point.y), z(0.0f), w(0.0f) {}
 			Vector4(Vector2 &point, float pZ) : x(point.x), y(point.y), z(pZ), w(0.0f) {}
-			Vector4(Vector2 &point, float pz, float pW) : x(point.x), y(point.y), z(pZ), w(pW) {}
+			Vector4(Vector2 &point, float pZ, float pW) : x(point.x), y(point.y), z(pZ), w(pW) {}
 			Vector4(Vector3 &point) : x(point.x), y(point.y), z(point.z), w(0.0f) {}
 			Vector4(Vector3 &point, float pW) : x(point.x), y(point.y), z(point.z), w(pW) {}
 			Vector4(float pX, float pY, float pZ, float pW) : x(pX), y(pY), z(pZ), w(pW) {}
@@ -108,14 +102,11 @@ namespace PAGE
 			bool operator!=(const Vector4 &point) { return x != point.x || y != point.y || z != point.z || w != point.w; }
 			float operator[](const int i) { return (i%4 == 0 ? x : i%4 == 1 ? y : i%4 == 2 ? z : w); }
 			
-			friend ostream& operator<<(ostream &out, Vector4 &point)
-			{ out << "( " << x << ", " << y << ", " << z << ", " << w << ")"; return out; }
-			friend istream& operator>>(istream &in, Vector4 &point)
+			friend std::ostream& operator<<(std::ostream &out, Vector4 point)
+			{ out << "( " << point.x << ", " << point.y << ", " << point.z << ", " << point.w << ")"; return out; }
+			friend std::istream& operator>>(std::istream &in, Vector4 point)
 			{ in >> point.x >> point.y >> point.z >> point.w; return in; }
-			
-			Vector2 operator Vector2() { return Vector2(x,y); }
-			Vector3 operator Vector3() { return Vector3(x,y,z); }
-			
+
 			Vector4 normalize() { float length = magnitude(); return Vector4(x/length, y/length, z/length, w/length); }
 			float magnitude_squared() { return pow(x,2) + pow(y,2) + pow(z,2) + pow(w,2); }
 			float magnitude() { return sqrt(pow(x,2) + pow(y,2) + pow(z,2) + pow(w,2)); }
