@@ -1,0 +1,6 @@
+OpenGL Notes (2/13/12) [GAME ARCHITECTURE]
+
+In the beginning....SGI (SiliconGraphics)
+	o They specialized in 3D graphics
+	o Created IRISGL (integrated raster imaging system graphics library)
+		o IRIS language was locked into SGI's hardware

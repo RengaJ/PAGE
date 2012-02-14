@@ -22,7 +22,7 @@ namespace PAGE
 			Vector2 operator=(const Vector2 &point)	{ x = point.x; y = point.y; return Vector2(x,y); }
 			bool operator==(const Vector2 &point) { return x == point.x && y == point.y; }
 			bool operator!=(const Vector2 &point) { return x != point.x || y != point.y; }
-			float operator[](const int i) { return (i%2 == 0 ? x : y); }
+			float& operator[](const int i) { return (i%2 == 0 ? x : y); }
 			
 			friend std::ostream& operator<<(std::ostream &out, Vector2 point)
 			{ out << "( " << point.x << ", " << point.y << " )"; return out; }
@@ -59,7 +59,7 @@ namespace PAGE
 			Vector3 operator=(const Vector3 &point) { x = point.x; y = point.y; z = point.z; return Vector3(x,y,z); }
 			bool operator==(const Vector3 &point) { return x == point.x && y == point.y && z == point.z; }
 			bool operator!=(const Vector3 &point) { return x != point.x || y != point.y || z != point.z; }
-			float operator[](const int i) { return (i%3 == 0 ? x : i%3 == 1 ? y : z); }
+			float& operator[](const int i) { return (i%3 == 0 ? x : i%3 == 1 ? y : z); }
 			
 			friend std::ostream& operator<<(std::ostream &out, Vector3 point)
 			{ out << "( " << point.x << ", " << point.y << ", " << point.z << " )"; return out; }
@@ -100,7 +100,7 @@ namespace PAGE
 			Vector4 operator=(const Vector4 &point) { x = point.x; y = point.y; z = point.z; w = point.w; return Vector4(x,y,z,w); }
 			bool operator==(const Vector4 &point) { return x == point.x && y == point.y && z == point.z && w == point.w; }
 			bool operator!=(const Vector4 &point) { return x != point.x || y != point.y || z != point.z || w != point.w; }
-			float operator[](const int i) { return (i%4 == 0 ? x : i%4 == 1 ? y : i%4 == 2 ? z : w); }
+			float& operator[](const int i) { return (i%4 == 0 ? x : i%4 == 1 ? y : i%4 == 2 ? z : w); }
 			
 			friend std::ostream& operator<<(std::ostream &out, Vector4 point)
 			{ out << "( " << point.x << ", " << point.y << ", " << point.z << ", " << point.w << " )"; return out; }

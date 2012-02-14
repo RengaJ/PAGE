@@ -1,36 +1,90 @@
-#include "page_vector.h"
+#include "page_debug.h"
+#include "page_mesh.h"
+
+#include <iostream>
+#include <fstream>
+#include <cstring>
+
+using namespace std;
+
+bool parse_egg(const char* filename, PAGE::Mesh* mesh);
+PAGE::Vertex parse_vertex(ifstream &file);
 
 int main(int argc, char* argv[])
 {
-	PAGE::Vector2 vector2_1(1,1);
-	PAGE::Vector2 vector2_2(4,5);
-	
-	std::cout << "vector2_1: " << vector2_1 << std::endl;
-	std::cout << "vector2_2: " << vector2_2 << std::endl;
-	
-	std::cout << "Addition: " << (vector2_1 + vector2_2) << std::endl;
-	std::cout << "Subtraction: " << (vector2_1 - vector2_2) << std::endl;
+	PAGE::Mesh mesh; // create a new Mesh object
+	PAGE::Debug::Log("Hello World");
 
-	std::cout << "Multiplication: " << vector2_2 * 2 << std::endl;
-	std::cout << "Multiplication: " << 2 * vector2_1 << std::endl;
-
-	std::cout << "Elements of vector2_2: " << vector2_2[0] << " " << vector2_2[3] << std::endl;
-
-	std::cout << "Magnitude Squared: " << vector2_2.magnitude_squared() << std::endl;
-	std::cout << "Normalized: " << vector2_2.normalize() << std::endl;
-
-	PAGE::Vector3 vector3_1(1,2,3);
-	PAGE::Vector3 vector3_2(8,4,2);
-	std::cout << "vector3_1: " << vector3_1 << std::endl;
-	std::cout << "vector3_2: " << vector3_2 << std::endl;
-
-	std::cout << "Addition: " << (vector3_1 + vector3_2) << std::endl;
-	std::cout << "Subtraction: "  << (vector3_1 - vector3_2) << std::endl;
-
-	std::cout << "Multiplication: " << vector3_2 * 1.5f << std::endl;
-
-	std::cout << "Cross: " << vector3_1.cross(vector3_2) << std::endl;
-	std::cout << "Cross: " << PAGE::Vector3::cross(vector3_2,vector3_1) << std::endl;
+	if (parse_egg("./models/panda.egg", &mesh))
+		PAGE::Debug::Log("Hooray!");
 
 	return 0;
+}
+
+bool parse_egg(const char* filename, PAGE::Mesh* mesh)
+{
+	std::ifstream file;
+	file.open(filename, std::ifstream::in);
+
+	if (!file.is_open())
+	{
+		PAGE::Debug::LogError("Failed to open egg file correctly.");
+		return false;
+	}
+
+	// Begin The Parsing
+	// Delimiters: <> {
+	// Things to look for:
+	// VertexPool
+	// 		Vertex int float float float
+	//		Normal float float float
+	//		UV float float
+	// Polygon
+	//		VertexRef int int int
+	// Joint [ end when we see this ]
+	char* token; // we will be using strtok() to parse the file
+	char* line;
+	while (!file.eof()) // continue until we reach the end (or when we find <Joint>
+	{
+		// get the next line of text
+		file.getline(line, 256);
+		token = strtok(line,"<> {");
+		while (token != NULL)
+		{
+			// if we found Vertex (not VertexPool):
+			if (strncmp(token,"Vertex",5) == 0 && strnlen(token) == 5)
+			{
+				// go into parse_vertex
+				PAGE::Vertex v = parse_vertex(file);
+				mesh->add_vertex(v);
+			}
+			if (strncmp(token,"Joint",5) == 0) // if we have reached the <Joint> tag, we do not care about the rest of the file. So, we break!
+				break;
+		}
+	}
+	PAGE::Debug::Log(mesh->vert_count());
+	file.close();
+
+	if (file.is_open())
+	{
+		PAGE::Debug::LogError("Failed to close egg file correctly.");
+		return false;
+	}
+
+	return true;
+}
+
+PAGE::Vertex parse_vertex(ifstream &file)
+{
+	Vertex v;
+
+	char* line;
+	file.getline(line, 256);
+
+	PAGE::Vector3 position;
+	file >> position;
+
+	v.position = position;
+
+	return v;
 }
