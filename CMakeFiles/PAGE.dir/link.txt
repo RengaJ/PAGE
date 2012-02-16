@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/PAGE.dir/src/page_utility.cpp.o CMakeFiles/PAGE.dir/src/page_matrix.cpp.o CMakeFiles/PAGE.dir/src/page_graphics.cpp.o CMakeFiles/PAGE.dir/src/main.cpp.o CMakeFiles/PAGE.dir/src/page_window.cpp.o  -o PAGE -rdynamic /usr/local/lib/libglfw.a -lGLU -lGL -lSM -lICE -lX11 -lXext -lGLEW -lpthread -lXrandr 

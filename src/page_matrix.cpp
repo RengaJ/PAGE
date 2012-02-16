@@ -19,7 +19,7 @@ Matrix22::Matrix22(float vf1, float vf2, float vf3, float vf4)
 Matrix22::Matrix22(Vector2 col1, Vector2 col2)
  : v1(col1), v2(col2) { }
 // Copy Constructor
-Matrix22::Matrix(const Matrix22 &nmatrix) { *this = matrix; }
+Matrix22::Matrix22(const Matrix22 &matrix) { *this = matrix; }
   //=========================//
  //===     OPERATORS     ===//
 //=========================//
@@ -78,7 +78,7 @@ Vector2 Matrix22::operator*(Vector2 &point)
 Matrix22 Matrix22::transpose()
 {
 	Vector2 v1_c(v1), v2_c(v2);
-	swap(&v1_c[1],v2_c[0]);
+	swap(&v1_c[1],&v2_c[0]);
 	return Matrix22(v1_c,v2_c);
 }
 // Determinant
@@ -94,7 +94,7 @@ bool Matrix22::has_inverse()
 	return true;
 }
 // Non-Altering Inverse ( matrix.inverse() will not alter matrix )
-Matrix22 Matrix::inverse()
+Matrix22 Matrix22::inverse()
 {
 	if (!has_inverse())
 		return *this;
@@ -111,7 +111,7 @@ Matrix33::Matrix33() { }
 Matrix33::Matrix33(float values[9])
  : v1(values[0],values[1],values[2]),
    v2(values[3],values[4],values[5]),
-   v3(valuse[6],values[7],values[8]) { }
+   v3(values[6],values[7],values[8]) { }
 // Partial Constructor
 Matrix33::Matrix33(float vf1, float vf2, float vf3,
                    float vf4, float vf5, float vf6,
@@ -144,7 +144,7 @@ Matrix33 Matrix33::operator*(const float scale)
 }
 // Friend Scalar Multiplication Operator (Defined in .h)
 // Array-Subscript Operator
-Vector3& operator[](int i)
+Vector3& Matrix33::operator[](int i)
 {
 	 if (i%3 == 0)
 		 return v1;
@@ -163,7 +163,7 @@ bool Matrix33::operator!=(const Matrix33 &matrix)
 	return v1 != matrix.v1 || v2 != matrix.v2 || v3 != matrix.v3;
 }
 // Matrix Multiplication Operator
-Matrix33 operator*(Matrix33 &matrix)
+Matrix33 Matrix33::operator*(Matrix33 &matrix)
 {
 	Vector3 v1_n, v2_n, v3_n;
 	v1_n[0] = v1[0]*matrix[0][0] + v2[0]*matrix[0][1] + v3[0]*matrix[0][2];
@@ -180,7 +180,7 @@ Matrix33 operator*(Matrix33 &matrix)
 	return Matrix33(v1_n,v2_n,v3_n);
 }
 // Vector Multiplication Operator
-Vector3 operator*(Vector3 &point)
+Vector3 Matrix33::operator*(Vector3 &point)
 {
 	Vector3 v_n;
 	v_n[0] = v1[0]*point[0] + v2[0]*point[1] + v3[0]*point[2];
@@ -327,7 +327,7 @@ Matrix44 Matrix44::operator*(Matrix44 &matrix)
 	return Matrix44(v1_n, v2_n, v3_n, v4_n);
 }
 // Vector Multiplication Operator
-Vector4 Matrix44::operator*(Vector3 &point)
+Vector4 Matrix44::operator*(Vector4 &point)
 {
 	Vector4 v1_n;
 	v1_n[0] = v1[0]*point[0] + v2[0]*point[1] + v3[0]*point[2] + v4[0]*point[3];

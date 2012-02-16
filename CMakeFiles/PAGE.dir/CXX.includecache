@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+./include/page_matrix.h
+page_vector.h
+./include/page_vector.h
+
+./include/page_utility.h
+iostream
+-
+
+./include/page_vector.h
+page_utility.h
+./include/page_utility.h
+math.h
+-
+
+/home/rengaj/Documents/PAGE/src/page_matrix.cpp
+page_matrix.h
+/home/rengaj/Documents/PAGE/src/page_matrix.h
+page_vector.h
+/home/rengaj/Documents/PAGE/src/page_vector.h
+page_utility.h
+/home/rengaj/Documents/PAGE/src/page_utility.h
+

@@ -51,8 +51,8 @@ namespace PAGE
 			friend Matrix33 operator*(const float scale, Matrix33 &matrix)
 			{ return Matrix33(matrix[0]*scale, matrix[1]*scale, matrix[2]*scale); }
 			Vector3& operator[](int i);
-			bool operator==(Matrix33 &matrix);
-			bool operator!=(Matrix33 &matrix);
+			bool operator==(const Matrix33 &matrix);
+			bool operator!=(const Matrix33 &matrix);
 			Matrix33 operator*(Matrix33 &matrix);
 			Vector3 operator*(Vector3 &point);
 			// non-altering transpose ( matrix.transpose() will not alter matrix )
@@ -88,11 +88,11 @@ namespace PAGE
 			Matrix44 operator*(const float scale);
 			friend Matrix44 operator*(const float scale, Matrix44 &matrix)
 			{ return Matrix44(matrix[0]*scale, matrix[1]*scale, matrix[2]*scale, matrix[3]*scale); }
-			Vector3& operator[](int i);
+			Vector4& operator[](int i);
 			bool operator==(Matrix44 &matrix);
 			bool operator!=(Matrix44 &matrix);
 			Matrix44 operator*(Matrix44 &matrix);
-			Vector3 operator*(Vector3 &point);
+			Vector4 operator*(Vector4 &point);
 			// non-altering transpose ( matrix.transpose() will not alter matrix )
 			Matrix44 transpose();
 			float determinant();

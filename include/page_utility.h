@@ -1,16 +1,16 @@
-#ifndef __PAGE_UTILITY
-#define __PAGE_UTILITY
+#ifndef PAGE_UTILITY_H_
+#define PAGE_UTILITY_H_
 
 #include <iostream>
 
 namespace PAGE
 {
-	// Clamping methods
-	float clampf01 ( float value ) { return (value < 0 ? 0 : value > 1 ? 1 : value); }
-	float clampf ( float value, float min, float max ) { return (value < min ? min : value > max ? max : value); }
-	int   clampi ( int value,   int min,   int max ) { return (value < min ? min : value > max ? max : value); }
-
+	float clampf01 ( float value );
+	float clampf ( float value, float min, float max );
+	int   clampi ( int value,   int min,   int max );
 	// Swap method
-	void swap( float* v1, float* v2 ) { float v = *v1; *v1 = *v2; *v2 = v; }
+	void swap( float* v1, float* v2 );
+
 }
-#endif
+
+#endif /* PAGE_UTILITY_H_ */
