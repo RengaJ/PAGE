@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="include/page_debug.h" open="1" top="0" tabpos="8">
+		<Cursor position="283" topLine="0" />
+	</File>
+	<File name="include/page_dof.h" open="1" top="0" tabpos="4">
+		<Cursor position="15" topLine="0" />
+	</File>
+	<File name="include/page_graphics.h" open="0" top="0" tabpos="0">
+		<Cursor position="747" topLine="11" />
+	</File>
+	<File name="include/page_joint.h" open="1" top="0" tabpos="2">
+		<Cursor position="924" topLine="7" />
+	</File>
+	<File name="include/page_matrix.h" open="0" top="0" tabpos="0">
+		<Cursor position="278" topLine="109" />
+	</File>
+	<File name="include/page_mesh.h" open="1" top="0" tabpos="5">
+		<Cursor position="2183" topLine="60" />
+	</File>
+	<File name="include/page_parser.h" open="1" top="0" tabpos="13">
+		<Cursor position="71" topLine="0" />
+	</File>
+	<File name="include/page_texture.h" open="1" top="0" tabpos="10">
+		<Cursor position="601" topLine="19" />
+	</File>
+	<File name="include/page_utility.h" open="1" top="0" tabpos="6">
+		<Cursor position="108" topLine="0" />
+	</File>
+	<File name="include/page_vector.h" open="1" top="0" tabpos="11">
+		<Cursor position="6227" topLine="90" />
+	</File>
+	<File name="shaders/panda.fs" open="0" top="0" tabpos="2">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="shaders/panda.vs" open="0" top="0" tabpos="3">
+		<Cursor position="133" topLine="0" />
+	</File>
+	<File name="shaders/uberlight.fs" open="0" top="0" tabpos="3">
+		<Cursor position="2267" topLine="61" />
+	</File>
+	<File name="shaders/uberlight.vs" open="0" top="0" tabpos="2">
+		<Cursor position="392" topLine="0" />
+	</File>
+	<File name="src/main.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="11025" topLine="365" />
+	</File>
+	<File name="src/page_debug.cpp" open="1" top="1" tabpos="15">
+		<Cursor position="226" topLine="0" />
+	</File>
+	<File name="src/page_dof.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="3937" topLine="0" />
+	</File>
+	<File name="src/page_joint.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="1581" topLine="53" />
+	</File>
+	<File name="src/page_matrix.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="7538" topLine="414" />
+	</File>
+	<File name="src/page_mesh.cpp" open="1" top="0" tabpos="12">
+		<Cursor position="3215" topLine="128" />
+	</File>
+	<File name="src/page_texture.cpp" open="1" top="0" tabpos="14">
+		<Cursor position="1934" topLine="133" />
+	</File>
+</CodeBlocks_layout_file>

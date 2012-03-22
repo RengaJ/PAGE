@@ -10,6 +10,12 @@ using namespace PAGE;
 // Default Constructor
 Matrix22::Matrix22() { }
 // Partial Constructor
+Matrix22::Matrix22(float diagonal)
+{
+    v1 = Vector2(diagonal,0);
+    v2 = Vector2(0,diagonal);
+}
+// Partial Constructor
 Matrix22::Matrix22(float values[4])
  : v1(values[0],values[1]), v2(values[2],values[3]) { }
 // Partial Constructor
@@ -107,6 +113,13 @@ Matrix22 Matrix22::inverse()
 //========================//
 // Default Constructor
 Matrix33::Matrix33() { }
+// Partial Constructor
+Matrix33::Matrix33(float diagonal)
+{
+    v1 = Vector3(diagonal,0,0);
+    v2 = Vector3(0,diagonal,0);
+    v3 = Vector3(0,0,diagonal);
+}
 // Partial Constructor
 Matrix33::Matrix33(float values[9])
  : v1(values[0],values[1],values[2]),
@@ -217,7 +230,7 @@ Matrix33 Matrix33::inverse()
 	if (!has_inverse())
 		return *this;
     float scale = 1.0f/determinant();
-    return (cofactor().transpose()) * scale;
+    return (cofactor() * scale);
 }
 Matrix33 Matrix33::cofactor()
 {
@@ -241,6 +254,14 @@ Matrix33 Matrix33::cofactor()
 //========================//
 // Default Constructor
 Matrix44::Matrix44() { }
+// Partial Constructor
+Matrix44::Matrix44(float diagonal)
+{
+    v1 = Vector4(diagonal,0,0,0);
+    v2 = Vector4(0,diagonal,0,0);
+    v3 = Vector4(0,0,diagonal,0);
+    v4 = Vector4(0,0,0,diagonal);
+}
 // Partial Constructor
 Matrix44::Matrix44(float v[16])
  : v1(v[0],v[1],v[2],v[3]),
@@ -304,27 +325,27 @@ bool Matrix44::operator!=(Matrix44 &matrix)
 // Matrix Multiplication Operator
 Matrix44 Matrix44::operator*(Matrix44 &matrix)
 {
-	Vector4 v1_n, v2_n, v3_n, v4_n;
-	v1_n[0] = v1[0]*matrix[0][0] + v2[0]*matrix[0][1] + v3[0]*matrix[0][2] + v4[0]*matrix[0][3];
-	v1_n[1] = v1[1]*matrix[0][0] + v2[1]*matrix[0][1] + v3[1]*matrix[0][2] + v4[1]*matrix[0][3];
-	v1_n[2] = v1[2]*matrix[0][0] + v2[2]*matrix[0][1] + v3[2]*matrix[0][2] + v4[2]*matrix[0][3];
-	v1_n[3] = v1[3]*matrix[0][0] + v2[3]*matrix[0][1] + v3[3]*matrix[0][2] + v4[3]*matrix[0][3];
+	Matrix44 new_matrix;
+	new_matrix.v1[0] = v1[0]*matrix[0][0] + v2[0]*matrix[0][1] + v3[0]*matrix[0][2] + v4[0]*matrix[0][3];
+	new_matrix.v1[1] = v1[1]*matrix[0][0] + v2[1]*matrix[0][1] + v3[1]*matrix[0][2] + v4[1]*matrix[0][3];
+	new_matrix.v1[2] = v1[2]*matrix[0][0] + v2[2]*matrix[0][1] + v3[2]*matrix[0][2] + v4[2]*matrix[0][3];
+	new_matrix.v1[3] = v1[3]*matrix[0][0] + v2[3]*matrix[0][1] + v3[3]*matrix[0][2] + v4[3]*matrix[0][3];
 
-	v2_n[0] = v1[0]*matrix[1][0] + v2[0]*matrix[1][1] + v3[0]*matrix[1][2] + v4[0]*matrix[1][3];
-	v2_n[1] = v1[1]*matrix[1][0] + v2[1]*matrix[1][1] + v3[1]*matrix[1][2] + v4[1]*matrix[1][3];
-	v2_n[2] = v1[2]*matrix[1][0] + v2[2]*matrix[1][1] + v3[2]*matrix[1][2] + v4[2]*matrix[1][3];
-	v2_n[3] = v1[3]*matrix[1][0] + v2[3]*matrix[1][1] + v3[3]*matrix[1][2] + v4[3]*matrix[1][3];
+	new_matrix.v2[0] = v1[0]*matrix[1][0] + v2[0]*matrix[1][1] + v3[0]*matrix[1][2] + v4[0]*matrix[1][3];
+	new_matrix.v2[1] = v1[1]*matrix[1][0] + v2[1]*matrix[1][1] + v3[1]*matrix[1][2] + v4[1]*matrix[1][3];
+	new_matrix.v2[2] = v1[2]*matrix[1][0] + v2[2]*matrix[1][1] + v3[2]*matrix[1][2] + v4[2]*matrix[1][3];
+	new_matrix.v2[3] = v1[3]*matrix[1][0] + v2[3]*matrix[1][1] + v3[3]*matrix[1][2] + v4[3]*matrix[1][3];
 
-	v3_n[0] = v1[0]*matrix[2][0] + v2[0]*matrix[2][1] + v3[0]*matrix[2][2] + v4[0]*matrix[2][3];
-	v3_n[1] = v1[1]*matrix[2][0] + v2[1]*matrix[2][1] + v3[1]*matrix[2][2] + v4[1]*matrix[2][3];
-	v3_n[2] = v1[2]*matrix[2][0] + v2[2]*matrix[2][1] + v3[2]*matrix[2][2] + v4[2]*matrix[2][3];
-	v3_n[3] = v1[3]*matrix[2][0] + v2[3]*matrix[2][1] + v3[3]*matrix[2][2] + v4[3]*matrix[2][3];
+	new_matrix.v3[0] = v1[0]*matrix[2][0] + v2[0]*matrix[2][1] + v3[0]*matrix[2][2] + v4[0]*matrix[2][3];
+	new_matrix.v3[1] = v1[1]*matrix[2][0] + v2[1]*matrix[2][1] + v3[1]*matrix[2][2] + v4[1]*matrix[2][3];
+	new_matrix.v3[2] = v1[2]*matrix[2][0] + v2[2]*matrix[2][1] + v3[2]*matrix[2][2] + v4[2]*matrix[2][3];
+	new_matrix.v3[3] = v1[3]*matrix[2][0] + v2[3]*matrix[2][1] + v3[3]*matrix[2][2] + v4[3]*matrix[2][3];
 
-	v4_n[0] = v1[0]*matrix[3][0] + v2[0]*matrix[3][1] + v3[0]*matrix[3][2] + v4[0]*matrix[3][3];
-	v4_n[1] = v1[1]*matrix[3][0] + v2[1]*matrix[3][1] + v3[1]*matrix[3][2] + v4[1]*matrix[3][3];
-	v4_n[2] = v1[2]*matrix[3][0] + v2[2]*matrix[3][1] + v3[2]*matrix[3][2] + v4[2]*matrix[3][3];
-	v4_n[3] = v1[3]*matrix[3][0] + v2[3]*matrix[3][1] + v3[3]*matrix[3][2] + v4[3]*matrix[3][3];
-	return Matrix44(v1_n, v2_n, v3_n, v4_n);
+	new_matrix.v4[0] = v1[0]*matrix[3][0] + v2[0]*matrix[3][1] + v3[0]*matrix[3][2] + v4[0]*matrix[3][3];
+	new_matrix.v4[1] = v1[1]*matrix[3][0] + v2[1]*matrix[3][1] + v3[1]*matrix[3][2] + v4[1]*matrix[3][3];
+	new_matrix.v4[2] = v1[2]*matrix[3][0] + v2[2]*matrix[3][1] + v3[2]*matrix[3][2] + v4[2]*matrix[3][3];
+	new_matrix.v4[3] = v1[3]*matrix[3][0] + v2[3]*matrix[3][1] + v3[3]*matrix[3][2] + v4[3]*matrix[3][3];
+	return new_matrix;
 }
 // Vector Multiplication Operator
 Vector4 Matrix44::operator*(Vector4 &point)
@@ -340,9 +361,69 @@ Vector4 Matrix44::operator*(Vector4 &point)
  //===     FUNCTIONS     ===//
 //=========================//
 // non-altering transpose ( matrix.transpose() will not alter matrix )
-Matrix44 transpose();
-float determinant();
-bool has_inverse();
+Matrix44 Matrix44::transpose()
+{
+    Matrix44 matrix;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            matrix[i][j] = (*this)[j][i];
+    return matrix;
+}
+float Matrix44::determinant()
+{
+    return (v1[0]*v2[1]*v3[2]*v4[3] + v1[0]*v3[1]*v4[2]*v2[3] + v1[0]*v4[1]*v2[2]*v3[3] +
+            v2[0]*v1[1]*v4[2]*v3[3] + v2[0]*v3[1]*v1[2]*v4[3] + v2[0]*v4[1]*v3[2]*v1[3] +
+            v3[0]*v1[1]*v2[2]*v4[3] + v3[0]*v2[1]*v4[2]*v1[3] + v3[0]*v4[1]*v1[2]*v2[3] +
+            v4[0]*v1[1]*v3[2]*v2[3] + v4[0]*v2[1]*v1[2]*v3[3] + v4[0]*v3[1]*v2[2]*v1[3] -
+            v1[0]*v2[1]*v4[2]*v3[3] - v1[0]*v3[1]*v2[2]*v4[3] - v1[0]*v4[1]*v3[2]*v2[3] -
+            v2[0]*v1[1]*v3[2]*v4[3] - v2[0]*v3[1]*v4[2]*v1[3] - v2[0]*v4[1]*v1[2]*v3[3] -
+            v3[0]*v1[1]*v4[2]*v2[3] - v3[0]*v2[1]*v1[2]*v4[3] - v3[0]*v4[1]*v2[2]*v1[3] -
+            v4[0]*v1[1]*v2[2]*v3[3] - v4[0]*v2[1]*v3[2]*v1[3] - v4[0]*v3[1]*v1[2]*v2[3]);
+}
+bool Matrix44::has_inverse()
+{
+    return determinant() != 0.0f;
+}
 // non-altering inverse ( matrix.inverse() will not alter matrix )
-Matrix44 inverse();
-Matrix44 cofactor();
+Matrix44 Matrix44::inverse()
+{
+    if (!has_inverse())
+        return *this;
+    float scale = 1.0f/determinant();
+    return (cofactor() * scale);
+}
+Matrix44 Matrix44::cofactor()
+{
+    Matrix44 new_matrix;
+    new_matrix.v1[0] = Matrix33(v2[1],v2[2],v2[3],v3[1],v3[2],v3[3],v4[1],v4[2],v4[3]).determinant();
+    new_matrix.v2[0] = Matrix33(v1[1],v1[2],v1[3],v3[1],v3[2],v3[3],v4[1],v4[2],v4[3]).determinant();
+    new_matrix.v3[0] = Matrix33(v1[1],v1[2],v1[3],v2[1],v2[2],v2[3],v4[1],v4[2],v4[3]).determinant();
+    new_matrix.v4[0] = Matrix33(v1[1],v1[2],v1[3],v2[1],v2[2],v2[3],v3[1],v3[2],v3[3]).determinant();
+
+    new_matrix.v1[1] = Matrix33(v2[0],v2[2],v2[3],v3[0],v3[2],v3[3],v4[0],v4[2],v4[3]).determinant();
+    new_matrix.v2[1] = Matrix33(v1[0],v1[2],v1[3],v3[0],v3[2],v3[3],v4[0],v4[2],v4[3]).determinant();
+    new_matrix.v3[1] = Matrix33(v1[0],v1[2],v1[3],v2[0],v2[2],v2[3],v4[0],v4[2],v4[3]).determinant();
+    new_matrix.v4[1] = Matrix33(v1[0],v1[2],v1[3],v2[0],v2[2],v2[3],v3[0],v3[2],v3[3]).determinant();
+
+    new_matrix.v1[2] = Matrix33(v2[0],v2[1],v2[3],v3[0],v3[1],v3[3],v4[0],v4[1],v4[3]).determinant();
+    new_matrix.v2[2] = Matrix33(v1[0],v1[1],v1[3],v3[0],v3[1],v3[3],v4[0],v4[1],v4[3]).determinant();
+    new_matrix.v3[2] = Matrix33(v1[0],v1[1],v1[3],v2[0],v2[1],v2[3],v4[0],v4[1],v4[3]).determinant();
+    new_matrix.v4[2] = Matrix33(v1[0],v1[1],v1[3],v2[0],v2[1],v2[3],v3[0],v3[1],v3[3]).determinant();
+
+    new_matrix.v1[2] = Matrix33(v2[0],v2[1],v2[2],v3[0],v3[1],v3[2],v4[0],v4[1],v4[2]).determinant();
+    new_matrix.v2[2] = Matrix33(v1[0],v1[1],v1[2],v3[0],v3[1],v3[2],v4[0],v4[1],v4[2]).determinant();
+    new_matrix.v3[2] = Matrix33(v1[0],v1[1],v1[2],v2[0],v2[1],v2[2],v4[0],v4[1],v4[2]).determinant();
+    new_matrix.v4[2] = Matrix33(v1[0],v1[1],v1[2],v2[0],v2[1],v2[2],v3[0],v3[1],v3[2]).determinant();
+
+    return new_matrix;
+}
+
+Matrix44f Matrix44::toArray()
+{
+    Matrix44f new_mat = Matrix44f();
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            new_mat.mat[(i*4)+j] = (*this)[i][j];
+
+    return new_mat;
+}

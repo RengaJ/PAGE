@@ -176,6 +176,54 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/page_debug.o: src/page_debug.cpp.o
+.PHONY : src/page_debug.o
+
+# target to build an object file
+src/page_debug.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o
+.PHONY : src/page_debug.cpp.o
+
+src/page_debug.i: src/page_debug.cpp.i
+.PHONY : src/page_debug.i
+
+# target to preprocess a source file
+src/page_debug.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_debug.cpp.i
+.PHONY : src/page_debug.cpp.i
+
+src/page_debug.s: src/page_debug.cpp.s
+.PHONY : src/page_debug.s
+
+# target to generate assembly for a file
+src/page_debug.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_debug.cpp.s
+.PHONY : src/page_debug.cpp.s
+
+src/page_dof.o: src/page_dof.cpp.o
+.PHONY : src/page_dof.o
+
+# target to build an object file
+src/page_dof.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o
+.PHONY : src/page_dof.cpp.o
+
+src/page_dof.i: src/page_dof.cpp.i
+.PHONY : src/page_dof.i
+
+# target to preprocess a source file
+src/page_dof.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_dof.cpp.i
+.PHONY : src/page_dof.cpp.i
+
+src/page_dof.s: src/page_dof.cpp.s
+.PHONY : src/page_dof.s
+
+# target to generate assembly for a file
+src/page_dof.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_dof.cpp.s
+.PHONY : src/page_dof.cpp.s
+
 src/page_graphics.o: src/page_graphics.cpp.o
 .PHONY : src/page_graphics.o
 
@@ -200,6 +248,30 @@ src/page_graphics.cpp.s:
 	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.s
 .PHONY : src/page_graphics.cpp.s
 
+src/page_joint.o: src/page_joint.cpp.o
+.PHONY : src/page_joint.o
+
+# target to build an object file
+src/page_joint.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o
+.PHONY : src/page_joint.cpp.o
+
+src/page_joint.i: src/page_joint.cpp.i
+.PHONY : src/page_joint.i
+
+# target to preprocess a source file
+src/page_joint.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_joint.cpp.i
+.PHONY : src/page_joint.cpp.i
+
+src/page_joint.s: src/page_joint.cpp.s
+.PHONY : src/page_joint.s
+
+# target to generate assembly for a file
+src/page_joint.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_joint.cpp.s
+.PHONY : src/page_joint.cpp.s
+
 src/page_matrix.o: src/page_matrix.cpp.o
 .PHONY : src/page_matrix.o
 
@@ -223,6 +295,102 @@ src/page_matrix.s: src/page_matrix.cpp.s
 src/page_matrix.cpp.s:
 	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.s
 .PHONY : src/page_matrix.cpp.s
+
+src/page_mesh.o: src/page_mesh.cpp.o
+.PHONY : src/page_mesh.o
+
+# target to build an object file
+src/page_mesh.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o
+.PHONY : src/page_mesh.cpp.o
+
+src/page_mesh.i: src/page_mesh.cpp.i
+.PHONY : src/page_mesh.i
+
+# target to preprocess a source file
+src/page_mesh.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.i
+.PHONY : src/page_mesh.cpp.i
+
+src/page_mesh.s: src/page_mesh.cpp.s
+.PHONY : src/page_mesh.s
+
+# target to generate assembly for a file
+src/page_mesh.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.s
+.PHONY : src/page_mesh.cpp.s
+
+src/page_parser.o: src/page_parser.cpp.o
+.PHONY : src/page_parser.o
+
+# target to build an object file
+src/page_parser.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o
+.PHONY : src/page_parser.cpp.o
+
+src/page_parser.i: src/page_parser.cpp.i
+.PHONY : src/page_parser.i
+
+# target to preprocess a source file
+src/page_parser.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_parser.cpp.i
+.PHONY : src/page_parser.cpp.i
+
+src/page_parser.s: src/page_parser.cpp.s
+.PHONY : src/page_parser.s
+
+# target to generate assembly for a file
+src/page_parser.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_parser.cpp.s
+.PHONY : src/page_parser.cpp.s
+
+src/page_texture.o: src/page_texture.cpp.o
+.PHONY : src/page_texture.o
+
+# target to build an object file
+src/page_texture.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o
+.PHONY : src/page_texture.cpp.o
+
+src/page_texture.i: src/page_texture.cpp.i
+.PHONY : src/page_texture.i
+
+# target to preprocess a source file
+src/page_texture.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_texture.cpp.i
+.PHONY : src/page_texture.cpp.i
+
+src/page_texture.s: src/page_texture.cpp.s
+.PHONY : src/page_texture.s
+
+# target to generate assembly for a file
+src/page_texture.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_texture.cpp.s
+.PHONY : src/page_texture.cpp.s
+
+src/page_transform.o: src/page_transform.cpp.o
+.PHONY : src/page_transform.o
+
+# target to build an object file
+src/page_transform.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o
+.PHONY : src/page_transform.cpp.o
+
+src/page_transform.i: src/page_transform.cpp.i
+.PHONY : src/page_transform.i
+
+# target to preprocess a source file
+src/page_transform.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_transform.cpp.i
+.PHONY : src/page_transform.cpp.i
+
+src/page_transform.s: src/page_transform.cpp.s
+.PHONY : src/page_transform.s
+
+# target to generate assembly for a file
+src/page_transform.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_transform.cpp.s
+.PHONY : src/page_transform.cpp.s
 
 src/page_utility.o: src/page_utility.cpp.o
 .PHONY : src/page_utility.o
@@ -288,12 +456,33 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/page_debug.o"
+	@echo "... src/page_debug.i"
+	@echo "... src/page_debug.s"
+	@echo "... src/page_dof.o"
+	@echo "... src/page_dof.i"
+	@echo "... src/page_dof.s"
 	@echo "... src/page_graphics.o"
 	@echo "... src/page_graphics.i"
 	@echo "... src/page_graphics.s"
+	@echo "... src/page_joint.o"
+	@echo "... src/page_joint.i"
+	@echo "... src/page_joint.s"
 	@echo "... src/page_matrix.o"
 	@echo "... src/page_matrix.i"
 	@echo "... src/page_matrix.s"
+	@echo "... src/page_mesh.o"
+	@echo "... src/page_mesh.i"
+	@echo "... src/page_mesh.s"
+	@echo "... src/page_parser.o"
+	@echo "... src/page_parser.i"
+	@echo "... src/page_parser.s"
+	@echo "... src/page_texture.o"
+	@echo "... src/page_texture.i"
+	@echo "... src/page_texture.s"
+	@echo "... src/page_transform.o"
+	@echo "... src/page_transform.i"
+	@echo "... src/page_transform.s"
 	@echo "... src/page_utility.o"
 	@echo "... src/page_utility.i"
 	@echo "... src/page_utility.s"

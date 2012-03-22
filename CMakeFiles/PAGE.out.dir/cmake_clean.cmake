@@ -1,9 +1,16 @@
 FILE(REMOVE_RECURSE
+  "CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o"
   "CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o"
+  "CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o"
+  "CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o"
+  "CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o"
   "CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o"
   "CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o"
+  "CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o"
   "CMakeFiles/PAGE.out.dir/src/main.cpp.o"
   "CMakeFiles/PAGE.out.dir/src/page_window.cpp.o"
+  "CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o"
+  "CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o"
   "PAGE.out.pdb"
   "PAGE.out"
 )

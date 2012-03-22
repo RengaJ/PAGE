@@ -3,35 +3,44 @@
 
 #include "page_vector.h"
 #include "page_mesh.h"
-#include <fstream>
+#include "page_texture.h"
+
 #include <vector>
+
+#include <GL/glew.h>
+#include <GL/glfw.h>
 
 namespace PAGE
 {
-	enum Shader { VERTEX, FRAGMENT };
 	class GraphicsContext
 	{
 		public:
+			enum Shader { VERTEX = 1, FRAGMENT = 2 };
+
 			GraphicsContext();
 			void initialize(int h, int w);
 			void initialize(Vector2 &resolution) { initialize(resolution.x,resolution.y); }
 			void release();
 
-			void set_clear_color(float r, float g, float b, float a);
-			void set_clear_color(Vector4 &rgba);
-			bool add_program(int program_id);
-			bool add_shader(std::ifstream& shader, int program_id, Shader shader_type);
-			bool add_shader(const char* shader, int program_id);
-
 			void add_mesh(Mesh &mesh);
 
 			void render();
 
+			GLuint load_shader(const char* filename, Shader type);
+			GLuint create_shader_program();
+			void add_shader(GLuint id);
+			void link_program();
+			GLint get_uniform_location(const char* name);
+
+			void bind_texture(Texture2D texture);
 		private:
 			void create_vbo(Mesh &mesh);
 
 			void destroy_vbos();
+			std::vector<GLuint> programs;
 			std::vector<Mesh> meshes;
+			std::vector<GLuint> textures;
+			GLuint current_program;
 			int height;
 			int width;
 	};

@@ -1,0 +1,35 @@
+//************** VERTEX SHADER **************//
+
+uniform vec3 WCLightPos;      // Position of the light in world coordinates
+uniform vec4 ViewPosition;    // Position of the camera (in world space)
+uniform mat4 WCtoLC;          // World coordinates to light coordinates transform
+uniform mat4 WCtoLCit;        // Inverse Transpose of WCtoLC
+uniform mat4 MCtoWC;          // Model Coordinates to world coordinates transform
+uniform mat4 MCtoWCit;        // Inverse Transpose of MCtoWC
+
+//************** FRAGMENT SHADER **************//
+
+uniform vec3 SurfaceColor;
+
+// Light Parameters
+uniform vec3 LightColor;
+uniform vec3 LightWeights;
+
+// Surface parameters
+uniform vec3 SurfaceWeights;
+uniform float SurfaceRoughness;
+uniform bool AmbientClamping;
+
+// Super ellipse shaping parameters
+uniform bool BarnShaping;
+uniform float SWidth;
+uniform float SHeight;
+uniform float SWidthEdge;
+uniform float SHeightEdge;
+uniform float SRoundness;
+
+// Distance shaping parameters
+uniform float DNear;
+uniform float DFar;
+uniform float DNearEdge;
+uniform float DFarEdge;

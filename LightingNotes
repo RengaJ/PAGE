@@ -1,0 +1,35 @@
+Lighting and Textures
+
+Three main components of light:
+
+Ambient -> color that at is everywhere ( i.e. the model is gray )
+Diffuse -> adds shadowing ( i.e. the model has depth ) [ fixed ]
+Specular -> adds "shine" ( i.e. the model reflects a light color ) [ dynamic ]
+
+Lighting is now done in the fragment shader ( it used be done in the vertex shader, but it looks pretty bad )
+
+Diffuse
+
+I = L M  cos(theta)
+ o   d d
+ 
+Phong
+
+R = -2N(L dot N) + L
+
+                      S
+Spec = L M (R dot eye)
+        S S
+
+Blinn-Phong
+H = eye - L
+
+                    S
+Spec = L M (N dot H)
+        S S
+        
+Eye space
+
+Most lighting calculations involve the relationship between the location of the light,
+the location of the model, and the location of the camera (eye)
+Often necessary to transform the incoming vertex into eye coordinates (ec)

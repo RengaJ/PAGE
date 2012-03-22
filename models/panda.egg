@@ -4,11 +4,11 @@
   "MaxEggPlugin nul.max -o 'C:\Panda\panda-model.egg' -a model"
 }
 <Texture> Tex1 {
-  "panda-model.jpg"
+  "panda-model.tga"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
-  <Scalar> minfilter { linear_mipmap_linear }
+  <Scalar> minfilter { linear }
   <Scalar> magfilter { linear }
 }
 <Group> panda_walk_character  {

@@ -3,22 +3,65 @@
 
 CMakeFiles/PAGE.out.dir/src/main.cpp.o
  ./include/page_debug.h
+ ./include/page_graphics.h
  ./include/page_mesh.h
+ ./include/page_texture.h
  ./include/page_utility.h
  ./include/page_vector.h
  /home/rengaj/Documents/PAGE/src/main.cpp
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o
+ ./include/page_debug.h
+ /home/rengaj/Documents/PAGE/src/page_debug.cpp
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o
+ ./include/page_dof.h
+ ./include/page_matrix.h
+ ./include/page_utility.h
+ ./include/page_vector.h
+ /home/rengaj/Documents/PAGE/src/page_dof.cpp
 CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o
  ./include/page_debug.h
  ./include/page_graphics.h
  ./include/page_mesh.h
+ ./include/page_texture.h
  ./include/page_utility.h
  ./include/page_vector.h
  /home/rengaj/Documents/PAGE/src/page_graphics.cpp
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o
+ ./include/page_dof.h
+ ./include/page_joint.h
+ ./include/page_matrix.h
+ ./include/page_utility.h
+ ./include/page_vector.h
+ /home/rengaj/Documents/PAGE/src/page_joint.cpp
 CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o
  ./include/page_matrix.h
  ./include/page_utility.h
  ./include/page_vector.h
  /home/rengaj/Documents/PAGE/src/page_matrix.cpp
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o
+ ./include/page_debug.h
+ ./include/page_mesh.h
+ ./include/page_texture.h
+ ./include/page_utility.h
+ ./include/page_vector.h
+ /home/rengaj/Documents/PAGE/src/page_mesh.cpp
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o
+ ./include/page_debug.h
+ ./include/page_mesh.h
+ ./include/page_parser.h
+ ./include/page_texture.h
+ ./include/page_utility.h
+ ./include/page_vector.h
+ /home/rengaj/Documents/PAGE/src/page_parser.cpp
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o
+ ./include/page_texture.h
+ /home/rengaj/Documents/PAGE/src/page_texture.cpp
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o
+ ./include/page_matrix.h
+ ./include/page_transform.h
+ ./include/page_utility.h
+ ./include/page_vector.h
+ /home/rengaj/Documents/PAGE/src/page_transform.cpp
 CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o
  ./include/page_utility.h
  /home/rengaj/Documents/PAGE/src/page_utility.cpp
@@ -26,6 +69,7 @@ CMakeFiles/PAGE.out.dir/src/page_window.cpp.o
  ./include/page_debug.h
  ./include/page_graphics.h
  ./include/page_mesh.h
+ ./include/page_texture.h
  ./include/page_utility.h
  ./include/page_vector.h
  ./include/page_window.h

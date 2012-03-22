@@ -49,9 +49,32 @@ include CMakeFiles/PAGE.out.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/PAGE.out.dir/flags.make
 
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o: src/page_transform.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o -c /home/rengaj/Documents/PAGE/src/page_transform.cpp
+
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PAGE.out.dir/src/page_transform.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rengaj/Documents/PAGE/src/page_transform.cpp > CMakeFiles/PAGE.out.dir/src/page_transform.cpp.i
+
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PAGE.out.dir/src/page_transform.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rengaj/Documents/PAGE/src/page_transform.cpp -o CMakeFiles/PAGE.out.dir/src/page_transform.cpp.s
+
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.requires:
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.requires
+
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.provides: CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.provides.build
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.provides
+
+CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o
+
 CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
 CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o: src/page_utility.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o -c /home/rengaj/Documents/PAGE/src/page_utility.cpp
 
@@ -72,9 +95,78 @@ CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o.provides: CMakeFiles/PAGE.out.dir
 
 CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o
 
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o: src/page_dof.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o -c /home/rengaj/Documents/PAGE/src/page_dof.cpp
+
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PAGE.out.dir/src/page_dof.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rengaj/Documents/PAGE/src/page_dof.cpp > CMakeFiles/PAGE.out.dir/src/page_dof.cpp.i
+
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PAGE.out.dir/src/page_dof.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rengaj/Documents/PAGE/src/page_dof.cpp -o CMakeFiles/PAGE.out.dir/src/page_dof.cpp.s
+
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.requires:
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.requires
+
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.provides: CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.provides.build
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.provides
+
+CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o
+
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o: src/page_joint.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o -c /home/rengaj/Documents/PAGE/src/page_joint.cpp
+
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PAGE.out.dir/src/page_joint.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rengaj/Documents/PAGE/src/page_joint.cpp > CMakeFiles/PAGE.out.dir/src/page_joint.cpp.i
+
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PAGE.out.dir/src/page_joint.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rengaj/Documents/PAGE/src/page_joint.cpp -o CMakeFiles/PAGE.out.dir/src/page_joint.cpp.s
+
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.requires:
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.requires
+
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.provides: CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.provides.build
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.provides
+
+CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o
+
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o: src/page_texture.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o -c /home/rengaj/Documents/PAGE/src/page_texture.cpp
+
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PAGE.out.dir/src/page_texture.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rengaj/Documents/PAGE/src/page_texture.cpp > CMakeFiles/PAGE.out.dir/src/page_texture.cpp.i
+
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PAGE.out.dir/src/page_texture.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rengaj/Documents/PAGE/src/page_texture.cpp -o CMakeFiles/PAGE.out.dir/src/page_texture.cpp.s
+
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.requires:
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.requires
+
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.provides: CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.provides.build
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.provides
+
+CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o
+
 CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
 CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o: src/page_matrix.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o -c /home/rengaj/Documents/PAGE/src/page_matrix.cpp
 
@@ -97,7 +189,7 @@ CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o.provides.build: CMakeFiles/PAGE.ou
 
 CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
 CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o: src/page_graphics.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o -c /home/rengaj/Documents/PAGE/src/page_graphics.cpp
 
@@ -118,9 +210,32 @@ CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o.provides: CMakeFiles/PAGE.out.di
 
 CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o
 
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o: src/page_debug.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_8)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o -c /home/rengaj/Documents/PAGE/src/page_debug.cpp
+
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PAGE.out.dir/src/page_debug.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rengaj/Documents/PAGE/src/page_debug.cpp > CMakeFiles/PAGE.out.dir/src/page_debug.cpp.i
+
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PAGE.out.dir/src/page_debug.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rengaj/Documents/PAGE/src/page_debug.cpp -o CMakeFiles/PAGE.out.dir/src/page_debug.cpp.s
+
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.requires:
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.requires
+
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.provides: CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.provides.build
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.provides
+
+CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o
+
 CMakeFiles/PAGE.out.dir/src/main.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
 CMakeFiles/PAGE.out.dir/src/main.cpp.o: src/main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/main.cpp.o -c /home/rengaj/Documents/PAGE/src/main.cpp
 
@@ -143,7 +258,7 @@ CMakeFiles/PAGE.out.dir/src/main.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/s
 
 CMakeFiles/PAGE.out.dir/src/page_window.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
 CMakeFiles/PAGE.out.dir/src/page_window.cpp.o: src/page_window.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_10)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_window.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_window.cpp.o -c /home/rengaj/Documents/PAGE/src/page_window.cpp
 
@@ -164,22 +279,82 @@ CMakeFiles/PAGE.out.dir/src/page_window.cpp.o.provides: CMakeFiles/PAGE.out.dir/
 
 CMakeFiles/PAGE.out.dir/src/page_window.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_window.cpp.o
 
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o: src/page_parser.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_11)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o -c /home/rengaj/Documents/PAGE/src/page_parser.cpp
+
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PAGE.out.dir/src/page_parser.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rengaj/Documents/PAGE/src/page_parser.cpp > CMakeFiles/PAGE.out.dir/src/page_parser.cpp.i
+
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PAGE.out.dir/src/page_parser.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rengaj/Documents/PAGE/src/page_parser.cpp -o CMakeFiles/PAGE.out.dir/src/page_parser.cpp.s
+
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.requires:
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.requires
+
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.provides: CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.provides.build
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.provides
+
+CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o
+
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o: CMakeFiles/PAGE.out.dir/flags.make
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o: src/page_mesh.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rengaj/Documents/PAGE/CMakeFiles $(CMAKE_PROGRESS_12)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o -c /home/rengaj/Documents/PAGE/src/page_mesh.cpp
+
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/rengaj/Documents/PAGE/src/page_mesh.cpp > CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.i
+
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/rengaj/Documents/PAGE/src/page_mesh.cpp -o CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.s
+
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.requires:
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.requires
+
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.provides: CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.provides.build
+.PHONY : CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.provides
+
+CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.provides.build: CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o
+
 # Object files for target PAGE.out
 PAGE_out_OBJECTS = \
+"CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o" \
 "CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o" \
+"CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o" \
+"CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o" \
+"CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o" \
 "CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o" \
 "CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o" \
+"CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o" \
 "CMakeFiles/PAGE.out.dir/src/main.cpp.o" \
-"CMakeFiles/PAGE.out.dir/src/page_window.cpp.o"
+"CMakeFiles/PAGE.out.dir/src/page_window.cpp.o" \
+"CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o" \
+"CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o"
 
 # External object files for target PAGE.out
 PAGE_out_EXTERNAL_OBJECTS =
 
+PAGE.out: CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o
 PAGE.out: CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o
+PAGE.out: CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o
+PAGE.out: CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o
+PAGE.out: CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o
 PAGE.out: CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o
 PAGE.out: CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o
+PAGE.out: CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o
 PAGE.out: CMakeFiles/PAGE.out.dir/src/main.cpp.o
 PAGE.out: CMakeFiles/PAGE.out.dir/src/page_window.cpp.o
+PAGE.out: CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o
+PAGE.out: CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o
 PAGE.out: /usr/local/lib/libglfw.a
 PAGE.out: /usr/lib/libGLU.so
 PAGE.out: /usr/lib/libGL.so
@@ -198,11 +373,18 @@ PAGE.out: CMakeFiles/PAGE.out.dir/link.txt
 CMakeFiles/PAGE.out.dir/build: PAGE.out
 .PHONY : CMakeFiles/PAGE.out.dir/build
 
+CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_transform.cpp.o.requires
 CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_utility.cpp.o.requires
+CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_dof.cpp.o.requires
+CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_joint.cpp.o.requires
+CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_texture.cpp.o.requires
 CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_matrix.cpp.o.requires
 CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_graphics.cpp.o.requires
+CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_debug.cpp.o.requires
 CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/main.cpp.o.requires
 CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_window.cpp.o.requires
+CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_parser.cpp.o.requires
+CMakeFiles/PAGE.out.dir/requires: CMakeFiles/PAGE.out.dir/src/page_mesh.cpp.o.requires
 .PHONY : CMakeFiles/PAGE.out.dir/requires
 
 CMakeFiles/PAGE.out.dir/clean:

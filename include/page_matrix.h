@@ -5,10 +5,15 @@
 
 namespace PAGE
 {
+	struct Matrix22f { 	float mat[4]; };
+	struct Matrix33f { float mat[9]; };
+	struct Matrix44f { float mat[16]; };
+
 	class Matrix22
 	{
 		public:
 			Matrix22();
+			Matrix22(float diagonal);
 			Matrix22(float values[4]);
 			Matrix22(float vf1, float vf2, float vf3, float vf4);
 			Matrix22(Vector2 col1, Vector2 col2);
@@ -40,6 +45,7 @@ namespace PAGE
 	{
 		public:
 			Matrix33();
+			Matrix33(float diagonal);
 			Matrix33(float values[9]);
 			Matrix33(float vf1, float vf2, float vf3,
 			         float vf4, float vf5, float vf6,
@@ -76,6 +82,7 @@ namespace PAGE
 	{
 		public:
 			Matrix44();
+			Matrix44(float diagonal);
 			Matrix44(float v[16]);
 			Matrix44(float vf1, float vf2, float vf3, float vf4,
 			         float vf5, float vf6, float vf7, float vf8,
@@ -104,6 +111,9 @@ namespace PAGE
 			static float determinant(Matrix44 &matrix) { return matrix.determinant(); }
 			static Matrix44 inverse(Matrix44 &matrix) { return matrix.inverse(); }
 			static Matrix44 cofactor(Matrix44 &matrix) { return matrix.cofactor(); }
+
+			Matrix44f toArray();
+			static Matrix44f toArray(Matrix44& matrix) { return matrix.toArray(); }
 		private:
 			Vector4 v1;
 			Vector4 v2;
