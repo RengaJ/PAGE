@@ -73,7 +73,7 @@ namespace PAGE
             // add a weight to a single vertex
 			void add_weight_to(int index, const char* name, float weight);
 			// add a weight to multiple vertices
-			void add_weight_to(int* indexes, const char* name, float weight);
+			void add_weight_to(int indexes[], int count, const char* name, float weight);
 			// get weight from vertex joint name
 			float get_weight_from(int index, const char* name);
 			// get all weights from index

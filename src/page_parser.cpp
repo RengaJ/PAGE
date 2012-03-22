@@ -44,16 +44,18 @@ void Parser::parse_egg(const char* filename, Mesh* mesh)
 					mesh->set_coordinate_system(Mesh::Y_UP_LEFT);
 			}
 			else if (strncmp(token,"Texture",7) == 0 && strlen(token) == 7)
-				continue;//Parser::parse_egg_texture(file);
+				Parser::parse_egg_texture(file);
 			// if we found Vertex (not VertexPool):
 			else if (strncmp(token,"Vertex",6) == 0 && strlen(token) == 6)
 				// go into parse_vertex
-				continue;//Parser::parse_egg_vertex(file);
+				Parser::parse_egg_vertex(file);
 			else if (strncmp(token,"Polygon",7) == 0 && strlen(token) == 7)
 				Parser::__parse_egg_triangle(file,mesh);
 			else if (strncmp(token,"Joint",5) == 0) // if we have reached the <Joint> tag, we do not care about the rest of the file. So, we break!
-				examine_file = false;
-				break;
+			{
+				token = strtok(NULL, "<> {}"); // this should be [name]
+				Parser::__parse_egg_skeleton(token,file,mesh);
+			}
 			token = strtok(NULL,"<> {");
 		}
 
@@ -193,8 +195,90 @@ void Parser::__parse_egg_triangle(std::ifstream &file, Mesh* mesh)
 	mesh->add_triangle(index[0], index[1], index[2]);
 }
 
-void Parser::__parse_egg_skeleton()
+void Parser::__parse_egg_skeleton(char* name, std::ifsream &file, Mesh* mesh)
 {
+	mesh->setSkeleton(__parse_egg_joint(name, file));
+}
+
+// Recursive function
+Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
+{
+	Joint joint(std::string(name));
+	char* token;
+	char line[256];
+	file.getline(line,256); // Transform
+	file.getline(line,256); // Matrix4
+
+	float matrix[16];
+	for (int i = 0; i < 4; i++)
+	{
+		file.getline(line,256); // Get the first line of Matrix4
+		token = strtok(line," \t");
+		for (int j = 0; j < 4; j++)
+		{
+			matrix[(i*4)+j] = atof(token);
+			token = strtok(NULL, " \t");
+		}
+	}
+
+	joint.set_bind_matrix(Matrix44(matrix));
+
+	file.getline(line,256); // } // matrix4
+	file.getline(line,256); // } // transform
+	// Check for child joints (recursive calls)
+	while (true)
+	{
+		file.getline(line,256);
+		token = strtok(line, "<> {");
+		if (strncmp(token,"Joint", 5) == 0)
+		{
+			token = strtok(NULL, "<> {");
+			joint.add_child(&(Parser::__parse_egg_joint(token, file, mesh)));
+		}
+		else // should break on VertexRef
+			break;
+	}
+	if (strncmp(token, "}", 1) == 0) // we have found the end of the joint! (this might happen)
+		/* just look at panda.egg:17534 -> this is the end of a joint, but without any VertexRef attributes. */
+		return joint;
+	while (true)
+	{
+		if (strncmp(token, "VertexRef", 9) == 0) // we have found VertexRef!
+		{
+			float weight = -1.0f;
+			vector<int> indices = vector<int>();
+			while (true)
+			{
+				file.getline(line);
+				token = strtok(line, "<> {}");
+				if (strncmp(token,"Scalar",6) == 0)
+					break;
+				while (token != NULL)
+				{
+					indices.push_back(atoi(token));
+					token = strtok(NULL, "<> {}");
+				}
+			}
+			int index[indices.size()];
+			for (int i = 0; i < indices.size(); i++)
+				index[i] = indices[i]-1;
+			token = strtok(NULL,"<> {}");
+			if (strncmp(token,"membership",10) == 0)
+			{
+				token = strtok(NULL,"<> {}");
+				weight = atof(token);
+
+				mesh->add_weight_to(index,indices.size(),name,weight);
+				file.getline(line,256);
+				file.getline(line,256);
+			}
+		}
+		else
+			break;
+	}
+	Debug::Log(joint.get_name());
+	file.getline(line,256);
+	return joint;
 }
 
 void Parser::__parse_egg_animation(const char* filename, char* animation_name, Mesh* mesh)

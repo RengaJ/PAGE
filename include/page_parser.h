@@ -2,6 +2,7 @@
 #define __PAGE_PARSER_H
 
 #include "page_mesh.h"
+#include "page_joint.h"
 #include <fstream>
 
 namespace PAGE
@@ -12,7 +13,8 @@ namespace PAGE
         void __parse_egg_texture(std::ifstream &file, Mesh* mesh);
         void __parse_egg_vertex(std::ifstream &file, Mesh* mesh);
         void __parse_egg_triangle(std::ifstream &file, Mesh* mesh);
-        void __parse_egg_skeleton();
+        void __parse_egg_skeleton(char* name, std::ifstream &file, Mesh* mesh);
+		Joint __parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh);
         void __parse_egg_animation(const char* filename, char* animation_name, Mesh* mesh);
 	}
 }
