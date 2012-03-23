@@ -582,8 +582,8 @@ void create_mesh()
 	Debug::Log("Complete.");
 
 	Debug::LogLine("Interpolating Indices...");
-	GLuint indices[mesh.tris_count()];
-	std::vector<int> triangles = mesh.tris();
+	GLuint indices[mesh.poly_index_count()];
+	std::vector<int> triangles = mesh.polys();
 	for (int i = 0; i < triangles.size(); i++)
 		indices[i] = (GLuint)triangles[i];
 	Debug::Log("Complete.");
@@ -751,7 +751,7 @@ void render_mesh()
 	glBindVertexArray(bufferId[0]);
 	GL_CHECK("DRAW: Could not bind the VAO to draw mesh.");
 
-	glDrawElements(GL_TRIANGLES, mesh.tris_count(), GL_UNSIGNED_INT, (GLvoid*)0);
+	glDrawElements(mesh.get_render_type(), mesh.poly_index_count(), GL_UNSIGNED_INT, (GLvoid*)0);
 	GL_CHECK("DRAW: Could not draw the mesh.");
 
 	glBindVertexArray(0);

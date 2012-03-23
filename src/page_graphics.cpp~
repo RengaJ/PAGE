@@ -4,8 +4,8 @@
 #include <cstdio>
 #include <string.h>
 
-//#include <jpeglib.h>
-//#include <jerror.h>
+#include <jpeglib.h>
+#include <jerror.h>
 
 using namespace PAGE;
 

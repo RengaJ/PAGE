@@ -53,7 +53,7 @@ void Parser::parse_egg(const char* filename, Mesh* mesh)
 				// go into parse_vertex
 				Parser::__parse_egg_vertex(file,mesh);
 			else if (strncmp(token,"Polygon",7) == 0 && strlen(token) == 7)
-				Parser::__parse_egg_triangle(file,mesh);
+				Parser::__parse_egg_polygon(file,mesh);
 			else if (strncmp(token,"Joint",5) == 0) // if we have reached the <Joint> tag, we do not care about the rest of the file. So, we break!
 			{
 				token = strtok(NULL, "<> {}"); // this should be [name]
@@ -179,9 +179,48 @@ void Parser::__parse_egg_texture(std::ifstream &file, Mesh* mesh)
 
 void Parser::__parse_egg_vertex(std::ifstream &file, Mesh* mesh)
 {
+	PAGE::Vertex v;
+
+	char line[256];
+	file.getline(line, 256);
+
+	PAGE::Vector4 position;
+	PAGE::Vector3 normals;
+	PAGE::Vector2 uv;
+	char* token = strtok(line," ");
+	for (int i = 0; i < 3; i++)
+	{
+		position[i] = atof(token) / 100.0f;
+		token = strtok(NULL," ");
+	}
+	position[3] = 1.0f;
+	// now for normals
+	file.getline(line,256);
+	token = strtok(line,"<> {}");
+	token = strtok(NULL,"<> {}");
+	for (int i = 0; i < 3; i++)
+	{
+		normals[i] = atof(token);
+		token = strtok(NULL," ");
+	}
+	// now for uvs
+	file.getline(line,256);
+	token = strtok(line,"<> {}");
+	token = strtok(NULL,"<> {}");
+	for (int i = 0; i < 2; i++)
+	{
+		uv[i] = atof(token);
+		token = strtok(NULL," ");
+	}
+
+	v.position = position;
+	v.normal = normals;
+	v.uv = uv;
+
+	mesh->add_vertex(v);
 }
 
-void Parser::__parse_egg_triangle(std::ifstream &file, Mesh* mesh)
+void Parser::__parse_egg_polygon(std::ifstream &file, Mesh* mesh)
 {
 	int  index[3];
 	char line[256];
@@ -238,11 +277,13 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 			token = strtok(NULL, "<> {");
 			joint.add_child((Parser::__parse_egg_joint(token, file, mesh)));
 		}
+		else if (strncmp(token,"Scalar",5) == 0) // the order of <Scalar> and <Joint> is unknown, so test for both!
+            continue;
 		else // should break on VertexRef
 			break;
 	}
 	if (strncmp(token, "}", 1) == 0) // we have found the end of the joint! (this might happen)
-		/* just look at panda.egg:17534 -> this is the end of a joint, but without any VertexRef attributes. */
+		/* just look at panda.egg:17534 -> this is the end of a joint, but without any VertexRef attributes! */
 		return joint;
 	while (true)
 	{

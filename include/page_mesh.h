@@ -5,6 +5,10 @@
 #include "page_debug.h"
 #include "page_joint.h"
 #include "page_texture.h"
+
+#include <GL/glew.h>
+#include <GL/glfw.h>
+
 #include <vector>
 
 namespace PAGE
@@ -53,16 +57,26 @@ namespace PAGE
 	{
 		public:
 			enum CoordinateSystem { Y_UP, Y_UP_RIGHT, Y_UP_LEFT, Z_UP, Z_UP_RIGHT, Z_UP_LEFT };
-			Mesh();
+			Mesh(GLenum polygon_type = GL_TRIANGLES);
 
+			int poly_count ();
 			int vert_count () { return vertices.size(); }
-			int tris_count () { return triangles.size(); }
+			int poly_index_count() { return polygons.size(); }
 			void add_vertex(Vertex &v) { vertices.push_back(Vertex(v.position,v.normal,v.color,v.uv)); }
 			void add_triangle(Vector3 &triangle);
 			void add_triangle(int v1, int v2, int v3);
 
+			void add_quad(Vector4 &quad);
+			void add_quad(int v1, int v2, int v3, int v4);
+
+			void add_line(Vector2 &line);
+			void add_line(int v1, int v2);
+
+			void set_render_type(GLenum render_type);
+			GLenum get_render_type();
+
 			std::vector<Vertex> verts() { return vertices; }
-			std::vector<int> tris() { return triangles; }
+			std::vector<int> polys() { return polygons; }
 
 			int vert_array_size() { return vertices.size() * sizeof(Vertex)/sizeof(float); }
 
@@ -92,9 +106,10 @@ namespace PAGE
 		private:
 			CoordinateSystem coordinateSystem;
 			std::vector<Vertex> vertices;
-			std::vector<int> triangles;
+			std::vector<int> polygons;
 			Texture2D texture;
 			Joint skeleton;
+			GLenum poly_type;
 	};
 }
 

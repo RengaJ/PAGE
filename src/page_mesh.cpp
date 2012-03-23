@@ -197,25 +197,78 @@ bool Vertex::boundTo(const char* joint_name)
 }
 
 
-Mesh::Mesh()
+Mesh::Mesh(GLenum polygon_type)
 {
     vertices = std::vector<Vertex>();
-    triangles = std::vector<int>();
+    polygons = std::vector<int>();
     coordinateSystem = Y_UP;
+
+    poly_type = polygon_type;
 }
 
+int Mesh::poly_count()
+{
+    int divisor = 1;
+    if (poly_type == GL_LINES || poly_type == GL_LINE_STRIP)
+        divisor = 2;
+    else if (poly_type == GL_TRIANGLES || poly_type == GL_TRIANGLE_STRIP || poly_type == GL_TRIANGLE_FAN)
+        divisor = 3;
+    else if (poly_type == GL_QUADS || poly_type == GL_QUAD_STRIP)
+        divisor = 4;
+
+    return polygons.size() / divisor;
+}
 void Mesh::add_triangle(Vector3 &triangle)
 {
-    triangles.push_back((int)triangle.x);
-    triangles.push_back((int)triangle.y);
-    triangles.push_back((int)triangle.z);
+    for (int i = 0; i < 3; i++)
+        polygons.push_back((int)triangle[i]);
 }
 
 void Mesh::add_triangle(int v1, int v2, int v3)
 {
-    triangles.push_back(v1);
-    triangles.push_back(v2);
-    triangles.push_back(v3);
+    polygons.push_back(v1);
+    polygons.push_back(v2);
+    polygons.push_back(v3);
+}
+
+void Mesh::add_quad(Vector4 &quad)
+{
+    for (int i = 0; i < 4; i++)
+        polygons.push_back((int)quad[i]);
+}
+
+void Mesh::add_quad(int v1, int v2, int v3, int v4)
+{
+    polygons.push_back(v1);
+    polygons.push_back(v2);
+    polygons.push_back(v3);
+    polygons.push_back(v4);
+}
+
+void Mesh::add_line(Vector2 &line)
+{
+    polygons.push_back((int)line.x);
+    polygons.push_back((int)line.y);
+}
+
+void Mesh::add_line(int v1, int v2)
+{
+    polygons.push_back(v1);
+    polygons.push_back(v2);
+}
+
+void Mesh::set_render_type(GLenum render_type)
+{
+    if (render_type == GL_LINES || render_type == GL_LINE_STRIP ||
+        render_type == GL_TRIANGLES || render_type == GL_TRIANGLE_STRIP ||
+        render_type == GL_TRIANGLE_FAN ||render_type == GL_QUADS ||
+        render_type == GL_QUAD_STRIP)
+        poly_type = render_type;
+}
+
+GLenum Mesh::get_render_type()
+{
+    return poly_type;
 }
 
 void Mesh::convert_verts(Vertex_S vert[])

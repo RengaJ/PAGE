@@ -5,8 +5,17 @@ using namespace PAGE;
 
 DOF::DOF(float min, float max, Freedom constraint)
 {
-    min_value = min;
-    max_value = max;
+    // just in case the user decides to be annoying...
+    if (min <= max)
+    {
+        min_value = min;
+        max_value = max;
+    }
+    else
+    {
+        min_value = max;
+        max_value = min;
+    }
     m_constraint = constraint;
 }
 
@@ -25,8 +34,16 @@ DOF& DOF::operator=(const DOF& rhs)
 
 void DOF::set_min_max(float min, float max)
 {
-    min_value = min;
-    max_value = max;
+    if (min <= max)
+    {
+        min_value = min;
+        max_value = max;
+    }
+    else // just in case the user decided to be annoying...
+    {
+        min_value = max;
+        max_value = min;
+    }
 }
 
 void DOF::set_value(float value)
@@ -53,7 +70,7 @@ Matrix44 XDOF::toMatrix()
     return matrix;
 }
 YDOF::YDOF(float min, float max)
-    : DOF(min,max,X)
+    : DOF(min,max,Y)
 {
     m_value = 0.0f;
 }
@@ -65,7 +82,7 @@ Matrix44 YDOF::toMatrix()
     return matrix;
 }
 ZDOF::ZDOF(float min, float max)
-    : DOF(min,max,X)
+    : DOF(min,max,Z)
 {
     m_value = 0.0f;
 }
@@ -117,7 +134,7 @@ Matrix44 HDOF::toMatrix()
     return matrix;
 }
 PDOF::PDOF(float min, float max, bool degrees)
-    : DOF(min,max,H)
+    : DOF(min,max,P)
 {
     if (degrees)
     {
@@ -157,7 +174,7 @@ Matrix44 PDOF::toMatrix()
     return matrix;
 }
 RDOF::RDOF(float min, float max, bool degrees)
-    : DOF(min,max,H)
+    : DOF(min,max,R)
 {
     if (degrees)
     {
