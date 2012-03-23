@@ -246,15 +246,20 @@ void Mesh::add_weight_to(int index, const char* name, float weight)
 	vertices[index].addWeight(name,weight);
 }
 // add a weight to multiple vertices
-void add_weight_to(int indexes[], int count, const char* name, float weight)
+void Mesh::add_weight_to(int indexes[], int count, const char* name, float weight)
 {
 	for (int i = 0; i < count; i++)
 		add_weight_to(indexes[i],name,weight);
 }
 // get weight from vertex joint name
-float get_weight_from(int index, const char* name)
+float Mesh::get_weight_from(int index, const char* name)
 {
 	if (index < 0 || index >= vertices.size())
 		return -1.0f;
 	vertices[index].getWeight(name);
+}
+
+void Mesh::setSkeleton(Joint joint)
+{
+    skeleton = joint;
 }

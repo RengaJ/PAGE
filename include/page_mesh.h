@@ -3,6 +3,7 @@
 
 #include "page_vector.h"
 #include "page_debug.h"
+#include "page_joint.h"
 #include "page_texture.h"
 #include <vector>
 
@@ -82,6 +83,8 @@ namespace PAGE
 			std::vector<Vertex> get_all_verts(const char* name);
 			// get all vertices bound to a joint with weight
 			std::vector<Vertex> get_all_verts(float weight);
+            // sets the root of the skeleton
+            void setSkeleton(Joint joint);
 
 			void set_texture(Texture2D &tex) { texture = tex; }
 			Texture2D get_texture() { return texture; }
@@ -91,6 +94,7 @@ namespace PAGE
 			std::vector<Vertex> vertices;
 			std::vector<int> triangles;
 			Texture2D texture;
+			Joint skeleton;
 	};
 }
 

@@ -43,13 +43,13 @@ Matrix44f Joint::get_inverse_bind_matrixF()
     return inverse_bind_matrix.toArray();
 }
 
-void Joint::set_parent(Joint* parent)
+void Joint::set_parent(Joint parent)
 {
-    this->parent = parent;
+    this->parent = &parent;
 }
-void Joint::add_child(Joint* child)
+void Joint::add_child(Joint child)
 {
-    children.push_back(child);
+    children.push_back(&child);
 }
 
 Joint* Joint::get_child(std::string name)

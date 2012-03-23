@@ -9,6 +9,7 @@ namespace PAGE
 {
 	namespace Parser
 	{
+	    const char* TEXTURE_PATH = "./models/";
         void parse_egg(const char* filename, Mesh* mesh);
         void __parse_egg_texture(std::ifstream &file, Mesh* mesh);
         void __parse_egg_vertex(std::ifstream &file, Mesh* mesh);

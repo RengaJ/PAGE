@@ -18,8 +18,8 @@ namespace PAGE
             Matrix44f get_bind_matrixF();
             Matrix44 get_inverse_bind_matrix();
             Matrix44f get_inverse_bind_matrixF();
-            void set_parent(Joint* parent);
-            void add_child(Joint* child);
+            void set_parent(Joint parent);
+            void add_child(Joint child);
             Joint* get_child(std::string name);
             void remove_child(std::string name);
             Joint* get_parent();

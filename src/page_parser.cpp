@@ -1,6 +1,9 @@
 #include "page_parser.h"
 #include "page_debug.h"
 #include <iostream>
+#include <fstream>
+
+#include <vector>
 
 using namespace PAGE;
 
@@ -44,11 +47,11 @@ void Parser::parse_egg(const char* filename, Mesh* mesh)
 					mesh->set_coordinate_system(Mesh::Y_UP_LEFT);
 			}
 			else if (strncmp(token,"Texture",7) == 0 && strlen(token) == 7)
-				Parser::parse_egg_texture(file);
+				Parser::__parse_egg_texture(file,mesh);
 			// if we found Vertex (not VertexPool):
 			else if (strncmp(token,"Vertex",6) == 0 && strlen(token) == 6)
 				// go into parse_vertex
-				Parser::parse_egg_vertex(file);
+				Parser::__parse_egg_vertex(file,mesh);
 			else if (strncmp(token,"Polygon",7) == 0 && strlen(token) == 7)
 				Parser::__parse_egg_triangle(file,mesh);
 			else if (strncmp(token,"Joint",5) == 0) // if we have reached the <Joint> tag, we do not care about the rest of the file. So, we break!
@@ -195,15 +198,15 @@ void Parser::__parse_egg_triangle(std::ifstream &file, Mesh* mesh)
 	mesh->add_triangle(index[0], index[1], index[2]);
 }
 
-void Parser::__parse_egg_skeleton(char* name, std::ifsream &file, Mesh* mesh)
+void Parser::__parse_egg_skeleton(char* name, std::ifstream &file, Mesh* mesh)
 {
-	mesh->setSkeleton(__parse_egg_joint(name, file));
+	mesh->setSkeleton(__parse_egg_joint(name, file, mesh));
 }
 
 // Recursive function
 Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 {
-	Joint joint(std::string(name));
+	Joint joint = Joint(std::string(name));
 	char* token;
 	char line[256];
 	file.getline(line,256); // Transform
@@ -221,7 +224,7 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 		}
 	}
 
-	joint.set_bind_matrix(Matrix44(matrix));
+	joint.set_bind_matrix(Matrix44(matrix).transpose());
 
 	file.getline(line,256); // } // matrix4
 	file.getline(line,256); // } // transform
@@ -233,7 +236,7 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 		if (strncmp(token,"Joint", 5) == 0)
 		{
 			token = strtok(NULL, "<> {");
-			joint.add_child(&(Parser::__parse_egg_joint(token, file, mesh)));
+			joint.add_child((Parser::__parse_egg_joint(token, file, mesh)));
 		}
 		else // should break on VertexRef
 			break;
@@ -246,10 +249,10 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 		if (strncmp(token, "VertexRef", 9) == 0) // we have found VertexRef!
 		{
 			float weight = -1.0f;
-			vector<int> indices = vector<int>();
+			std::vector<int> indices = std::vector<int>();
 			while (true)
 			{
-				file.getline(line);
+				file.getline(line, 256);
 				token = strtok(line, "<> {}");
 				if (strncmp(token,"Scalar",6) == 0)
 					break;
