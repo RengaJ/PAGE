@@ -4,6 +4,7 @@
 // THIS PROGRAM DISPLAYS A PANDA USING THE        //
 // UBERLIGHT SHADER.                              //
 ////////////////////////////////////////////////////
+#include "page_utility.h"
 //"built-in"
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,7 +24,7 @@
 #include "page_debug.h"
 #include "page_mesh.h"
 #include "page_texture.h"
-#include "page_utility.h"
+#include "page_parser.h"
 
 #define DEBUG 1
 
@@ -117,7 +118,7 @@ GLuint DistanceParamLocations[4] = { 0 };
 float PandaRotation = 0;
 double LastTime = 0;
 
-const char* TEXTURE_PATH = "./models/";
+//const char* TEXTURE_PATH = "./models/";
 
 using namespace std;
 using namespace PAGE;
@@ -505,7 +506,8 @@ void render(void)
 void create_mesh()
 {
     Debug::LogLine("Parsing Model...");
-    if (!parse_egg("./models/panda.egg"))
+   // if (!parse_egg("./models/panda.egg"))
+    if (!Parser::parse_egg("./models/panda.egg",&mesh))
     {
         Debug::Log("Failed.");
         Debug::LogError("Failed to parse model properly. Exiting.");

@@ -7,7 +7,7 @@
 
 using namespace PAGE;
 
-void Parser::parse_egg(const char* filename, Mesh* mesh)
+bool Parser::parse_egg(const char* filename, Mesh* mesh)
 {
 	std::ifstream file;
 	file.open(filename, std::ifstream::in);
@@ -18,7 +18,7 @@ void Parser::parse_egg(const char* filename, Mesh* mesh)
 	if (!file.is_open())
 	{
 		Debug::LogError("Failed to open egg file correctly.");
-		return;
+		return false;
 	}
 	char* token; // we will be using strtok() to parse the file
 	char line[256];
@@ -56,8 +56,10 @@ void Parser::parse_egg(const char* filename, Mesh* mesh)
 				Parser::__parse_egg_polygon(file,mesh);
 			else if (strncmp(token,"Joint",5) == 0) // if we have reached the <Joint> tag, we do not care about the rest of the file. So, we break!
 			{
-				token = strtok(NULL, "<> {}"); // this should be [name]
-				Parser::__parse_egg_skeleton(token,file,mesh);
+			//	token = strtok(NULL, "<> {}"); // this should be [name]
+			//	Parser::__parse_egg_skeleton(token,file,mesh);
+                examine_file = false;
+                break;
 			}
 			token = strtok(NULL,"<> {");
 		}
@@ -70,8 +72,10 @@ void Parser::parse_egg(const char* filename, Mesh* mesh)
 	if (file.is_open())
 	{
 		Debug::LogError("Failed to close egg file correctly.");
-		return;
+		return false;
 	}
+
+	return true;
 }
 
 void Parser::__parse_egg_texture(std::ifstream &file, Mesh* mesh)
@@ -328,3 +332,72 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 void Parser::__parse_egg_animation(const char* filename, char* animation_name, Mesh* mesh)
 {
 }
+/*
+    General Structure:
+
+<Table> {
+  <Bundle> bar {
+    <Table> "<skeleton>" {
+      <Table> joint1 {
+        <Xfm$Anim_S$> xform {
+          <Scalar> fps { 24 }
+          <Char*> order { srpht }
+          <S$Anim> r { <V> { 90 } }
+          <S$Anim> y { <V> { 4 } }
+        }
+        <Table> joint2 {
+          <Xfm$Anim_S$> xform {
+            <Scalar> fps { 24 }
+            <Char*> order { srpht }
+            <S$Anim> r { // degree of freedom
+              <V> {
+                -0 -7.38921 -15.6809 -24.5367 -33.6181 -42.5867 -51.104
+                -58.8316 -65.4312 -70.5641 -73.8921 -75.0766 -74.0773
+                -71.2533 -66.8651 -61.1735 -54.4392 -46.9229 -38.8852
+                -30.5868 -22.2884 -14.2506 -6.73431 -0
+              }
+            }
+            <S$Anim> x { <V> { 4 } }
+            <S$Anim> y { <V> { -0.10582 } }
+          }
+          <Table> joint3 {
+            <Xfm$Anim_S$> xform {
+              <Scalar> fps { 24 }
+              <Char*> order { srpht }
+              <S$Anim> r { <V> { -90 } }
+              <S$Anim> x { <V> { 4 } }
+              <S$Anim> y { <V> { 0.106 } }
+            }
+          }
+        }
+      }
+    }
+    <Table> morph {
+    }
+  }
+}
+<Table> "<skeleton>" { -> REQUIRED: Indicates that a skeletal animation
+                                    is about to be described.
+
+    Each <Table> entry following this first entry is a joint.
+        Each joint is self-contained, with NO NESTING involved!
+
+<Xfm$Anim_S$> -> a simplification of the animation matrix values by
+    removing the duplicated and non-changing values
+
+<Scalar> fps { [value] } -> represents the speed of the animation
+
+<S$Anim> [value] { <V> { .. } } -> represents a DOF
+    [ value ] is the axis of the DOF
+    <V> { ... } is the collection of positions that the degree of freedom
+                takes during the course of the animation.
+        Note that the size of <V> can only be length(contents)*num_frames
+    [value] can be one of the following:
+        i, j, k --> scale in x, y, or z
+        a, b, c --> shear in xy, xz, or yz
+        r, p, h --> roll, pitch, heading
+        x, y, z --> translation x, y, or z
+
+    or:
+        s       --> uniform scale
+ */

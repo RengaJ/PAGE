@@ -1,6 +1,8 @@
 #ifndef PAGE_UTILITY_H_
 #define PAGE_UTILITY_H_
 
+#define TEXTURE_PATH "./models/"
+
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
@@ -14,6 +16,7 @@ namespace PAGE
 
     const double FULL_ANGLE_RAD = 2.0 * PI;
     const double FULL_ANGLE_DEG = 360.0;
+
 
 	float clampf01 ( float value );
 	float clampf ( float value, float min, float max );
