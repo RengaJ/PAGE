@@ -41,6 +41,9 @@
 			<Add library="GL" />
 			<Add library="X11" />
 		</Linker>
+		<Unit filename="animations/bendy_bar-bend.egg" />
+		<Unit filename="include/page_animation.h" />
+		<Unit filename="include/page_animationjoint.h" />
 		<Unit filename="include/page_debug.h">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -80,10 +83,13 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="models/bendy_bar.egg" />
 		<Unit filename="models/panda.egg">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="shaders/diffuse.fs" />
+		<Unit filename="shaders/diffuse.vs" />
 		<Unit filename="shaders/panda.fs">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -104,6 +110,8 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/page_animation.cpp" />
+		<Unit filename="src/page_animationjoint.cpp" />
 		<Unit filename="src/page_debug.cpp" />
 		<Unit filename="src/page_dof.cpp" />
 		<Unit filename="src/page_graphics.cpp">

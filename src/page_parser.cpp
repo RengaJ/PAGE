@@ -1,5 +1,7 @@
 #include "page_parser.h"
+#include "page_dof.h"
 #include "page_debug.h"
+#include "page_animation.h"
 #include <iostream>
 #include <fstream>
 
@@ -289,7 +291,7 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 	}
 
     // Matrix44 automatically converts row-major into column major (got ahead of myself!)
-	joint.set_bind_matrix(Matrix44(matrix));
+	joint.set_local_matrix(Matrix44(matrix));
 
 	file.getline(line,256); // } // matrix4
 	file.getline(line,256); // } // transform
@@ -305,7 +307,7 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 		}
 		if (strncmp(token,"Scalar",5) == 0) // the order of <Scalar> and <Joint> is unknown, so test for both!
             continue;
-        file.seekg(file.tellg()-file.gcount());
+        file.seekg((int)file.tellg()-(int)file.gcount());
 		if (strncmp(token,"VertexRef",9) == 0) // should break on VertexRef
 			break;
 	}
@@ -355,11 +357,11 @@ Joint Parser::__parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh)
 	return joint;
 }
 
-void Parser::__parse_egg_animation(const char* filename, char* animation_name, Mesh* mesh)
+void Parser::parse_egg_animation(const char* filename, char* animation_name, Mesh* mesh)
 {
     std::ifstream file;
-    file.open(filename);
-
+    file.open(filename, std::ifstream::in);
+    Animation animation = Animation(std::string(animation_name));
     if (!file.is_open())
     {
         Debug::LogError("Failed to open animation file properly.");
@@ -371,14 +373,18 @@ void Parser::__parse_egg_animation(const char* filename, char* animation_name, M
     for (int i = 0; i < 5; i++)
     {
         file.getline(line, 256);
-        token = strtok(token,"<> {}");
+        token = strtok(line,"<> {}");
+        if (token == NULL)
+			continue;
         if (strncmp(token,"CoordinateSystem",16) == 0)
             continue; // this will be handled at a later date (assumes mesh's coordinate system)
     }
     while (!file.eof())
     {
         file.getline(line, 256);
-        token = strtok(token,"<> {}\"");
+        token = strtok(line,"<> {}\"");
+		if (token == NULL)
+			continue;
         if (strncmp(token,"Table",5) == 0)
         {
             token = strtok(NULL, "<> {}\"");
@@ -390,35 +396,60 @@ void Parser::__parse_egg_animation(const char* filename, char* animation_name, M
                 {
                     file.getline(line, 256); // <Table> [joint_name] {
                     token = strtok(line,"<> {}");
+					if (token == NULL)
+						break;
                     if (strncmp(token,"Table",5) != 0) // Probably means we have encountered a }
                         break;
-                    token = strtok(NULL,"<> {}")
-                    Parser::__parse_egg_animation_joint(file, token);
+                    token = strtok(NULL,"<> {}");
+                    __parse_egg_animation_joint(file, token, &animation, mesh);
                 }
             }
+            if (token == NULL) // so much token == NULL checking....GAAAAHHHH!!!!!
+				continue;
             if (strncmp(token,"morph",5) == 0) // <Table> morph {
                 continue;
         }
     }
+
+    mesh->add_animation(animation);
 }
 
-void Parser::__parse_egg_animation_joint(std::ifstream &file, const char* joint_name)
+void Parser::__parse_egg_animation_joint(std::ifstream &file, const char* joint_name, Animation *anim, Mesh* mesh)
 {
     char line[256];
     char* token;
 
     if (file.eof())
         return;
-
+	anim->add_joint(joint_name);
     file.getline(line,256);
     token = strtok(line, "<> {}");
-    if (strncmp(token, "Xfm$Anim_S", 10) != 0) // we are probably looking at <Xfm$Anim>
+    if (strncmp(token, "Xfm$Anim_S$", 11) != 0) // we are probably looking at <Xfm$Anim>
         return; // we will not handle this situation
-    token = strtok(line, "<> {}");
+    token = strtok(NULL, "<> {}");
     if (strncmp(token, "xform", 5) != 0) // we did not find <Xfm$Anim_S$> xform {
     {
         Debug::LogError("Invalid Animation File Detected.");
         return; // this is an invalid animation file
+    }
+    file.getline(line, 256);
+    token = strtok(line, "<> {}");
+    if (strncmp(token, "Scalar", 6) == 0) // contains fps information
+    {
+    	token = strtok(NULL, "<> {}");
+    	if (strncmp(token,"fps",3) == 0) // add information to Animation object
+		{
+			token = strtok(NULL, "<> {}");
+			anim->set_fps(atoi(token));
+		}
+    }
+    file.getline(line,256);
+    token = strtok(line, "<> {}");
+    if (strncmp(token, "Char*", 5) == 0)
+    {
+		token = strtok(NULL, "<> {}");
+		if (strncmp(token,"order",5) == 0)
+			anim->set_order(strtok(NULL,"<> {}"));
     }
     // here's the fun part!
     while (true) // while (token != "}")
@@ -427,82 +458,38 @@ void Parser::__parse_egg_animation_joint(std::ifstream &file, const char* joint_
         token = strtok(line, "<> {}");
         if (token == NULL) // token == "}" (most likely)
             break;
+		if (strncmp(token, "S$Anim",6) == 0) // we found a DOF
+		{
+			token = strtok(NULL, "<> {}");
+			DOF::Freedom dof = DOF::get_constraint(token[0]);
+			/* this will be one of the following:
+			    x,y,z, h,p,r, a,b,c, i,j,k, s, t */
+			token = strtok(NULL, "<> {}");
+			if (token == NULL) // we have the multi-line version of <S$Anim> [a] { <V> { ... } }
+			{
+				file.getline(line, 256);
+				while (true)
+				{
+					file.getline(line, 256);
+					token = strtok(line," ");
+					if (strncmp(token,"}",1) == 0)
+					{
+						file.getline(line, 256); // the second }
+						break;
+					}
+					while (token != NULL)
+					{
+						// parse float
+						anim->get_joint(joint_name)->set_frame(dof, atof(token));
+						token = strtok(NULL, " ");
+					}
+				}
+			}
+			else if (strncmp(token, "V", 1) == 0)
+			{
+				float value = atof(strtok(NULL, "<> {}"));
+				anim->get_joint(joint_name)->set_frames(dof,value,0);
+			}
+		}
     }
 }
-
-// IDEA:
-
-// Animation (name)
-//    -> contains AnimationJoint (name or joint)
-//    ---> contains AnimationFrame ()
-//    -----> contains DOF information for each frame (defaults to 0 for everything)
-/*
-    General Structure:
-
-<Table> {
-  <Bundle> bar {
-    <Table> "<skeleton>" {
-      <Table> joint1 {
-        <Xfm$Anim_S$> xform {
-          <Scalar> fps { 24 }
-          <Char*> order { srpht }
-          <S$Anim> r { <V> { 90 } }
-          <S$Anim> y { <V> { 4 } }
-        }
-        <Table> joint2 {
-          <Xfm$Anim_S$> xform {
-            <Scalar> fps { 24 }
-            <Char*> order { srpht }
-            <S$Anim> r { // degree of freedom
-              <V> {
-                -0 -7.38921 -15.6809 -24.5367 -33.6181 -42.5867 -51.104
-                -58.8316 -65.4312 -70.5641 -73.8921 -75.0766 -74.0773
-                -71.2533 -66.8651 -61.1735 -54.4392 -46.9229 -38.8852
-                -30.5868 -22.2884 -14.2506 -6.73431 -0
-              }
-            }
-            <S$Anim> x { <V> { 4 } }
-            <S$Anim> y { <V> { -0.10582 } }
-          }
-          <Table> joint3 {
-            <Xfm$Anim_S$> xform {
-              <Scalar> fps { 24 }
-              <Char*> order { srpht }
-              <S$Anim> r { <V> { -90 } }
-              <S$Anim> x { <V> { 4 } }
-              <S$Anim> y { <V> { 0.106 } }
-            }
-          }
-        }
-      }
-    }
-    <Table> morph {
-    }
-  }
-}
-<Table> "<skeleton>" { -> REQUIRED: Indicates that a skeletal animation
-                                    is about to be described.
-
-    Each <Table> entry following this first entry is a joint.
-        Each joint is self-contained, with NO NESTING involved!
-
-<Xfm$Anim_S$> -> a simplification of the animation matrix values by
-    removing the duplicated and non-changing values
-
-<Scalar> fps { [value] } -> represents the speed of the animation
-
-<S$Anim> [value] { <V> { .. } } -> represents a DOF
-    [ value ] is the axis of the DOF
-    <V> { ... } is the collection of positions that the degree of freedom
-                takes during the course of the animation.
-        Note that the size of <V> can only be length(contents)*num_frames
-    [value] can be one of the following:
-        i, j, k --> scale in x, y, or z
-        a, b, c --> shear in xy, xz, or yz
-        r, p, h --> roll, pitch, heading
-        x, y, z --> translation x, y, or z
-
-    or:
-        s       --> uniform scale
-        t       --> uniform translation
- */

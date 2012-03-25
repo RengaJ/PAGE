@@ -20,6 +20,9 @@ namespace PAGE
     const double FULL_ANGLE_RAD = 2.0 * PI;
     const double FULL_ANGLE_DEG = 360.0;
 
+	// animation matrix multiplication order
+	enum AnimationOrder { SPHRT = 0, SPRHT = 1, SHPRT = 2,
+						  SHRPT = 3, SRPHT = 4, SRHPT = 5 };
 
 	float clampf01 ( float value );
 	float clampf ( float value, float min, float max );

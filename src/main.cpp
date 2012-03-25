@@ -1,9 +1,6 @@
 //================================================//
 // MAIN.CPP                                       //
-//                                                //
-// THIS PROGRAM DISPLAYS A PANDA USING THE        //
-// UBERLIGHT SHADER.                              //
-////////////////////////////////////////////////////
+//================================================//
 #include "page_utility.h"
 //"built-in"
 #include <stdlib.h>
@@ -53,8 +50,6 @@ double prevTime;
 double deltaTime;
 double startTime;
 
-//static const double PI = 3.14159265358979323846;
-
 glm::vec3 eyePos = glm::vec3(0,0,15);
 glm::vec3 lookAt = glm::vec3(0,0,0);
 
@@ -67,19 +62,9 @@ glm::mat4 rotationMatrix = glm::mat4(1.0f);
 
 glm::mat4 cameraTransform;
 
-/*GLboolean barnShaping, ambientClamping;
-
-GLfloat sWidth, sHeight, sWidthEdge, sHeightEdge;
-GLfloat sRoundness, dNear, dFar, dNearEdge;
-GLfloat dFarEdge, surfaceRoughness;
-
-glm::vec3 surfaceWeights, lightColor, lightWeights, surfaceColor;
-*/
-
 glm::vec3 color = LIGHT_GRAY;
 glm::vec3 WCLightPos = lookAt-eyePos;
 glm::vec4 ViewPosition = glm::vec4(lookAt-eyePos, 1);
-// [World|Model] Coordinates to [World|Light]Coordinates [inverse transpose]
 glm::mat4 WCtoLC, WCtoLCit, MCtoWC, MCtoWCit;
 
 glm::mat3 normalMatrix = glm::mat3(1.0f);
@@ -97,34 +82,10 @@ GLuint bufferId[3] = { 0 };
 GLuint shaderId[3] = { 0 };
 GLuint TexId;
 
-// VERTEX SHADER UNIFORM LOCATION VARIABLES //
-/*GLuint WCLightPosLocation;   // light in wc
-GLuint ViewPositionLocation; // camera pos in wc
-GLuint WorldToLightLocation; // wc to lc (matrix)
-GLuint WorldToLightITLocation; // inverse tranpose of above
-GLuint ModelToWorldLocation;  // mc to wc (matrix)
-GLuint ModelToWorldITLocation; // inverse transpose of above
-// FRAGMENT SHADER UNIFORM LOCATION VARIABLES //
-GLuint SurfaceColorLocation;
-// Light Parameters
-GLuint LightParamLocations[2] = { 0 };
-// [0] = Color , [1] = Location
-// Surface parameters
-GLuint SurfaceParamLocations[3] = { 0 };
-// [0] = Weights, [1] = Roughness, [2] = AmbientClamping
-// Super ellipse shaping parameters
-GLuint SuperEllipseParamLocations[6] = { 0 };
-// [0] = BarnShaping, [1] = Width, [2] = Height
-// [3] = WidthEdge, [4] = HeightEdge, [5] = Roundness
-// Distance shaping parameters
-GLuint DistanceParamLocations[4] = { 0 };
-// [0] = Near, [1] = Far, [2] = NearEdge, [3] = FarEdge */
 GLuint DiffuseColorUniformLocation;
 
 float PandaRotation = 0;
 double LastTime = 0;
-
-//const char* TEXTURE_PATH = "./models/";
 
 using namespace std;
 using namespace PAGE;
@@ -203,7 +164,7 @@ void init(int argc, char* argv[])
     ViewMatrix = glm::lookAt(eyePos, lookAt, glm::vec3(0.0, 1.0, 0.0));
 
     create_mesh();
-    set_default_values();
+    //set_default_values();
 }
 
 void init_window(void)
@@ -264,7 +225,6 @@ void render(void)
 void create_mesh()
 {
     Debug::LogLine("Parsing Model...");
-   // if (!parse_egg("./models/panda.egg"))
     if (!Parser::parse_egg("./models/bendy_bar.egg",&mesh, GL_QUADS, false))
     {
         Debug::Log("Failed.");
@@ -275,12 +235,14 @@ void create_mesh()
     	Debug::Log("Done!");
     texture = mesh.get_texture();
 
+    Debug::Log("Parsing Animation bend");
+    Parser::parse_egg_animation("./animations/bendy_bar-bend.egg","bend",&mesh);
+    std::cout << "bend Information:\n" << mesh.get_animation("bend") << std::endl;
+
     shaderId[0] = glCreateProgram(); GL_CHECK("Could not create shader program.");
 
-    //shaderId[1] = load_shader("./shaders/uberlight.fs", GraphicsContext::FRAGMENT);
     shaderId[1] = load_shader("./shaders/diffuse.fs", GraphicsContext::FRAGMENT);
     check_shader(shaderId[1]);
-    //shaderId[2] = load_shader("./shaders/uberlight.vs", GraphicsContext::VERTEX);
     shaderId[2] = load_shader("./shaders/diffuse.vs", GraphicsContext::VERTEX);
 	check_shader(shaderId[2]);
 	glAttachShader(shaderId[0], shaderId[1]);
@@ -288,61 +250,18 @@ void create_mesh()
 	GL_CHECK("Failed to attach shaders.");
 
 	glBindAttribLocation(shaderId[0], 0, "in_position"); // Position of the vertex
-    //glBindAttribLocation(shaderId[0], 1, "in_normal");
-//	glBindAttribLocation(shaderId[0], 2, "in_tex");
     GL_CHECK("Failed to bind attribute locations.");
 
 	glLinkProgram(shaderId[0]); GL_CHECK("Failed to link the shader program.");
-
-    // VERTEX SHADER UNIFORM LOCATION BINDING //
-/*    WCLightPosLocation = glGetUniformLocation(shaderId[0], "WCLightPos");
-    GL_CHECK("Could not get the wc light position uniform location.");
-    ViewPositionLocation = glGetUniformLocation(shaderId[0], "ViewPosition");
-    GL_CHECK("Could not get the camera position uniform location.");
-    WorldToLightLocation = glGetUniformLocation(shaderId[0], "WCtoLC");
-    GL_CHECK("Could not get the wc to lc uniform location.");
-    WorldToLightITLocation = glGetUniformLocation(shaderId[0], "WCtoLCit");
-    GL_CHECK("Could not get the it of wc to lc uniform location.");
-    ModelToWorldLocation = glGetUniformLocation(shaderId[0], "MCtoWC");
-    GL_CHECK("Could not get the mc to wc uniform location.");
-    ModelToWorldITLocation = glGetUniformLocation(shaderId[0], "MCtoWCit");
-    GL_CHECK("Could not get the it of mc to wc uniform location."); */
 
     // MATRIX UNIFORM LOCATIONS
     ModelMatrixUniformLocation = glGetUniformLocation(shaderId[0], "ModelMatrix");
     ViewMatrixUniformLocation = glGetUniformLocation(shaderId[0], "ViewMatrix");
     ProjectionMatrixUniformLocation = glGetUniformLocation(shaderId[0], "ProjectionMatrix");
-    //NormalMatrixUniformLocation = glGetUniformLocation(shaderId[0], "Normal Matrix");
     GL_CHECK("Could not get the matrix uniform locations.");
 
     DiffuseColorUniformLocation = glGetUniformLocation(shaderId[0], "uColor");
     GL_CHECK("Could not get color uniform location.");
-    // FRAGMENT SHADER UNIFORM LOCATION BINDING //
-/*    SurfaceColorLocation = glGetUniformLocation(shaderId[0], "SurfaceColor");
-    GL_CHECK("Could not get the surface color uniform location.");
-    // Light Parameters
-    LightParamLocations[0] = glGetUniformLocation(shaderId[0], "LightColor");
-    LightParamLocations[1] = glGetUniformLocation(shaderId[0], "LightWeights");
-    GL_CHECK("Could not get the light parameter uniform locations.");
-    // Surface parameters
-    SurfaceParamLocations[0] = glGetUniformLocation(shaderId[0], "SurfaceWeights");
-    SurfaceParamLocations[1] = glGetUniformLocation(shaderId[0], "SurfaceRoughness");
-    SurfaceParamLocations[2] = glGetUniformLocation(shaderId[0], "AmbientClamping");
-    GL_CHECK("Could not get the surface parameter uniform locations.");
-    // Super ellipse shaping parameters
-    SuperEllipseParamLocations[0] = glGetUniformLocation(shaderId[0], "BarnShaping");
-    SuperEllipseParamLocations[1] = glGetUniformLocation(shaderId[0], "SWidth");
-    SuperEllipseParamLocations[2] = glGetUniformLocation(shaderId[0], "SHeight");
-    SuperEllipseParamLocations[3] = glGetUniformLocation(shaderId[0], "SWidthEdge");
-    SuperEllipseParamLocations[4] = glGetUniformLocation(shaderId[0], "SHeightEdge");
-    SuperEllipseParamLocations[5] = glGetUniformLocation(shaderId[0], "SRoundness");
-    GL_CHECK("Could not get the super ellipse parameter uniform locations.");
-    // Distance shaping parameters
-    DistanceParamLocations[0] = glGetUniformLocation(shaderId[0], "DNear");
-    DistanceParamLocations[1] = glGetUniformLocation(shaderId[0], "DFar");
-    DistanceParamLocations[2] = glGetUniformLocation(shaderId[0], "DNearEdge");
-    DistanceParamLocations[3] = glGetUniformLocation(shaderId[0], "DFarEdge");
-    GL_CHECK("Could not get the distance shaping parameter uniform locations."); */
 
     Debug::LogLine("Reticulating vertices...");
     Vertex_S vertices[mesh.vert_count()];
@@ -360,8 +279,6 @@ void create_mesh()
 	glBindVertexArray(bufferId[0]); GL_CHECK("Failed to bind the VAO.");
 
 	glEnableVertexAttribArray(0); // position
-	//glEnableVertexAttribArray(1); // normal
-//	glEnableVertexAttribArray(2); // uv
 	GL_CHECK("Failed to enable vertex attributes.");
 
 	glGenBuffers(2, &bufferId[1]);
@@ -379,8 +296,6 @@ void create_mesh()
 	int uv_offset = color_offset + sizeof(vertices[0].color);
 
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)0);
-//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)normal_offset);
-//    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)uv_offset);
     GL_CHECK("Failed to set VAO attributes.");
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId[2]);
@@ -417,36 +332,6 @@ void create_mesh()
     Debug::Log("Mesh Created.");
 }
 
-void set_default_values()
-{
-/*    barnShaping = GL_FALSE;
-    ambientClamping = GL_FALSE;
-
-    sWidth = 50;
-    sHeight = 50;
-    sWidthEdge = 1;
-    sHeightEdge = 1;
-    sRoundness = 0.1;
-
-    dNear = .1;
-    dFar = 100;
-    dNearEdge = .1;
-    dFarEdge = 40;
-
-    surfaceRoughness = 5;
-    // the color of the light
-    lightColor = WHITE;
-    // the color of the surface
-    surfaceColor = WHITE;
-
-    // how much of the surface color should the shader use
-    // to produce the final color
-    surfaceWeights = glm::vec3(1.,1.,1.);
-    // how much of the light color should the shader use to
-    // produce the final color
-    lightWeights = glm::vec3(1.,1.,1.); */
-}
-
 void render_mesh()
 {
 	float PandaAngle;
@@ -463,24 +348,10 @@ void render_mesh()
 	ModelMatrix = glm::mat4(1.0f);
 	ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0,0,-2));
 
-//	ModelMatrix = glm::rotate(ModelMatrix, PandaAngle, glm::vec3(0,1,0));
-//	ModelMatrix = glm::rotate(ModelMatrix, PandaAngle, glm::vec3(1,0,0));
-
 	for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
             normalMatrix[i][j] = ModelMatrix[i][j];
     normalMatrix = glm::transpose(glm::inverse(normalMatrix));
-
-
-    // world in light coordinates == inv(light in world coordinates)
-/*    MCtoWC = ModelMatrix;
-    //MCtoWCit = glm::inverse(glm::transpose(MCtoWC));
-    MCtoWCit = glm::transpose(glm::inverse(MCtoWC));
-
-    WCtoLC = glm::translate(ModelMatrix, WCLightPos);
-    //WCtoLC = ModelMatrix;
-//    WCtoLCit = glm::inverse(glm::transpose(WCtoLC));
-    WCtoLCit = glm::transpose(glm::inverse(WCtoLC)); */
 
 	glUseProgram(shaderId[0]);
 	GL_CHECK("DRAW: Could not use the shader program.");

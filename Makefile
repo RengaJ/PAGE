@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rengaj/Documents/PAGE
+CMAKE_SOURCE_DIR = /home/RengaJ/Documents/PAGE
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rengaj/Documents/PAGE
+CMAKE_BINARY_DIR = /home/RengaJ/Documents/PAGE
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -110,9 +110,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rengaj/Documents/PAGE/CMakeFiles /home/rengaj/Documents/PAGE/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/RengaJ/Documents/PAGE/CMakeFiles /home/RengaJ/Documents/PAGE/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rengaj/Documents/PAGE/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/RengaJ/Documents/PAGE/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -175,6 +175,54 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/page_animation.o: src/page_animation.cpp.o
+.PHONY : src/page_animation.o
+
+# target to build an object file
+src/page_animation.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_animation.cpp.o
+.PHONY : src/page_animation.cpp.o
+
+src/page_animation.i: src/page_animation.cpp.i
+.PHONY : src/page_animation.i
+
+# target to preprocess a source file
+src/page_animation.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_animation.cpp.i
+.PHONY : src/page_animation.cpp.i
+
+src/page_animation.s: src/page_animation.cpp.s
+.PHONY : src/page_animation.s
+
+# target to generate assembly for a file
+src/page_animation.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_animation.cpp.s
+.PHONY : src/page_animation.cpp.s
+
+src/page_animationjoint.o: src/page_animationjoint.cpp.o
+.PHONY : src/page_animationjoint.o
+
+# target to build an object file
+src/page_animationjoint.cpp.o:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_animationjoint.cpp.o
+.PHONY : src/page_animationjoint.cpp.o
+
+src/page_animationjoint.i: src/page_animationjoint.cpp.i
+.PHONY : src/page_animationjoint.i
+
+# target to preprocess a source file
+src/page_animationjoint.cpp.i:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_animationjoint.cpp.i
+.PHONY : src/page_animationjoint.cpp.i
+
+src/page_animationjoint.s: src/page_animationjoint.cpp.s
+.PHONY : src/page_animationjoint.s
+
+# target to generate assembly for a file
+src/page_animationjoint.cpp.s:
+	$(MAKE) -f CMakeFiles/PAGE.out.dir/build.make CMakeFiles/PAGE.out.dir/src/page_animationjoint.cpp.s
+.PHONY : src/page_animationjoint.cpp.s
 
 src/page_debug.o: src/page_debug.cpp.o
 .PHONY : src/page_debug.o
@@ -456,6 +504,12 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/page_animation.o"
+	@echo "... src/page_animation.i"
+	@echo "... src/page_animation.s"
+	@echo "... src/page_animationjoint.o"
+	@echo "... src/page_animationjoint.i"
+	@echo "... src/page_animationjoint.s"
 	@echo "... src/page_debug.o"
 	@echo "... src/page_debug.i"
 	@echo "... src/page_debug.s"

@@ -19,6 +19,16 @@ namespace PAGE
             float get_max();
 
             Freedom get_constraint();
+            static DOF::Freedom get_constraint(char axis)
+			{
+				if (axis == 'x') return DOF::X;
+				if (axis == 'y') return DOF::Y;
+				if (axis == 'z') return DOF::Z;
+				if (axis == 'h') return DOF::H;
+				if (axis == 'p') return DOF::P;
+				if (axis == 'r') return DOF::R;
+				return DOF::X;
+			}
             Matrix44 virtual toMatrix() = 0;
 
         protected:

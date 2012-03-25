@@ -12,14 +12,6 @@ Vertex::Vertex()
     color = Vector3(1,1,1);
     uv = Vector2();
     weights = std::map<std::string, float>();
- /*   weights = new float[3];
-    joint_names = new char*[3];
-
-    for (int i = 0; i < 3; i++)
-    {
-        weights[i] = -1.0f;
-        joint_names = NULL;
-    }*/
 }
 Vertex::Vertex( Vector4 pos )
 {
@@ -28,14 +20,6 @@ Vertex::Vertex( Vector4 pos )
     color = Vector3(1,1,1);
     uv = Vector2();
     weights = std::map<std::string, float>();
- /*   weights = new float[3];
-    joint_names = new char*[3];
-
-    for (int i = 0; i < 3; i++)
-    {
-        weights[i] = -1.0f;
-        joint_names = NULL;
-    }*/
 }
 Vertex::Vertex( Vector4 pos, Vector3 norm )
 {
@@ -44,14 +28,6 @@ Vertex::Vertex( Vector4 pos, Vector3 norm )
     color = Vector3(1,1,1);
     uv = Vector2();
     weights = std::map<std::string, float>();
- /*   weights = new float[3];
-    joint_names = new char*[3];
-
-    for (int i = 0; i < 3; i++)
-    {
-        weights[i] = -1.0f;
-        joint_names = NULL;
-    }*/
 }
 Vertex::Vertex( Vector4 pos, Vector3 norm, Vector3 color )
 {
@@ -60,14 +36,6 @@ Vertex::Vertex( Vector4 pos, Vector3 norm, Vector3 color )
     this->color = color;
     uv = Vector2();
     weights = std::map<std::string, float>();
- /*   weights = new float[3];
-    joint_names = new char*[3];
-
-    for (int i = 0; i < 3; i++)
-    {
-        weights[i] = -1.0f;
-        joint_names = NULL;
-    }*/
 }
 Vertex::Vertex( Vector4 pos,Vector3 norm,
                 Vector3 color, Vector2 uvs )
@@ -77,14 +45,6 @@ Vertex::Vertex( Vector4 pos,Vector3 norm,
     this->color = color;
     uv = uvs;
     weights = std::map<std::string, float>();
- /*   weights = new float[3];
-    joint_names = new char*[3];
-
-    for (int i = 0; i < 3; i++)
-    {
-        weights[i] = -1.0f;
-        joint_names[i] = NULL;
-    }*/
 }
 
 Vertex& Vertex::operator=(const Vertex& vert)
@@ -108,25 +68,7 @@ void Vertex::addWeight(std::string joint_name, float weight)
 {
     if (joint_name == "")
         return;
-    std::cout << "Adding weight of " << weight << " to joint labeled: " << joint_name << std::endl;
     weights[joint_name] = weight;
-/*    for (int i = 0; i < 3; i++)
-    {
-        if (joint_names[i] == NULL)
-        {
-            joint_names[i] = (char*)malloc(sizeof(char)*strlen(joint_name)+1);
-            strncpy(joint_names[i], joint_name, strlen(joint_name));
-            joint_names[i][strlen(joint_name)] = '\0';
-            weights[i] = weight;
-            break;
-
-        }
-        if (strncmp(joint_names[i],joint_name,strlen(joint_name)) == 0)
-        {
-            weights[i] = weight;
-            break;
-        }
-    } */
 }
 
 float Vertex::getWeight(std::string joint_name)
@@ -134,47 +76,17 @@ float Vertex::getWeight(std::string joint_name)
     if (weights.find(joint_name) != weights.end())
         return weights[joint_name];
     return -1;
-/*    for (int i = 0; i < 3; i++)
-    {
-        if (joint_names[i] != NULL)
-            if (strncmp(joint_names[i], joint_name, strlen(joint_name)) == 0)
-                return weights[i];
-    }
-
-    return -1.0f; */
 }
 
 void Vertex::removeWeight(std::string joint_name)
 {
     if (weights.find(joint_name) != weights.end())
         weights.erase(joint_name);
-/*    for (int i = 0; i < 3; i++)
-    {
-        if (joint_names[i] != NULL)
-        {
-            if (strncmp(joint_names[i],joint_name,strlen(joint_name)) == 0)
-            {
-                free(joint_names[i]);
-                joint_names[i] = NULL;
-                weights[i] = -1.0f;
-                break;
-            }
-        }
-    } */
 }
 
 void Vertex::removeAllWeights()
 {
     weights.clear();
-/*    for (int i = 0; i < 3; i++)
-    {
-        if (joint_names[i] != NULL)
-        {
-            free(joint_names[i]);
-            joint_names[i] = NULL;
-            weights[i] = -1;
-        }
-    } */
 }
 
 bool Vertex::hasWeight(float weight)
@@ -188,10 +100,6 @@ bool Vertex::hasWeight(float weight)
 
 bool Vertex::boundTo(std::string joint_name)
 {
-    /*for (int i = 0; i < 3; i++)
-        if (joint_names[i] != NULL && strncmp(joint_names[i],joint_name,strlen(joint_name)) == 0)
-            return true;
-    return false;*/
     return (weights.find(joint_name) != weights.end());
 }
 
@@ -206,7 +114,9 @@ Mesh::Mesh(GLenum polygon_type)
     else
         poly_type = GL_TRIANGLES;
 
-    texture = Texture2D(); // to make sure that this is a "valid" texture object
+    texture = Texture2D(); // to make sure that this is a "valid" textured object
+
+    animations = std::vector<Animation>();
 }
 
 int Mesh::poly_count()
@@ -330,4 +240,30 @@ void Mesh::use_offset(bool offset_type)
 bool Mesh::offset()
 {
     return is_offset;
+}
+
+void Mesh::add_animation(Animation &animation)
+{
+	remove_animation(animation.get_name()); // we don't want duplicatly named animations
+	animations.push_back(animation);
+}
+void Mesh::remove_animation(std::string name)
+{
+	int counter = 0;
+	for (int counter = 0; counter < animations.size(); counter++)
+		if (animations[counter].get_name() == name)
+			break;
+	if (animations.size() != 0 && counter != animations.size())
+		animations.erase(animations.begin()+counter);
+}
+Animation& Mesh::get_animation(std::string name)
+{
+	Animation a_return = Animation("stoopid");
+	for (int i = 0; i < animations.size(); i++)
+		if (animations[i].get_name() == name)
+		{
+			std::cout << "Found the correct animation" << std::endl;
+			return animations[i];
+		}
+	return a_return;
 }

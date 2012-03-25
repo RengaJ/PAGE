@@ -6,6 +6,7 @@
 #include "page_debug.h"
 #include "page_joint.h"
 #include "page_texture.h"
+#include "page_animation.h"
 
 #include <vector>
 #include <string>
@@ -110,8 +111,27 @@ namespace PAGE
 			void use_offset(bool offset_type);
 			bool offset();
 
+			void add_animation(Animation &animation);
+			void remove_animation(std::string name);
+			Animation& get_animation(std::string name);
+
+			void get_num_joints();
+
+			void skeleton_to_array(std::vector<Matrix44f>* matrix_array)
+			{
+				skeleton_to_array(skeleton, matrix_array);
+			}
+
+			void skeleton_to_array(Joint joint, std::vector<Matrix44f>* matrix_array)
+			{
+				matrix_array->push_back(joint.get_world_matrixF());
+				for (int i = 0; i < joint.get_num_children(); i++)
+					skeleton_to_array(*(joint.get_child(i)), matrix_array);
+			}
+
 		private:
 			CoordinateSystem coordinateSystem;
+			std::vector<Animation> animations;
 			std::vector<Vertex> vertices;
 			std::vector<int> polygons;
 			Texture2D texture;
