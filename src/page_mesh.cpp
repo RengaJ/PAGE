@@ -2,6 +2,7 @@
 
 #include "page_mesh.h"
 
+#include <iostream>
 using namespace PAGE;
 
 Vertex::Vertex()
@@ -10,14 +11,14 @@ Vertex::Vertex()
     normal = Vector3();
     color = Vector3(1,1,1);
     uv = Vector2();
-    weights = new float[3];
+ /*   weights = new float[3];
     joint_names = new char*[3];
 
     for (int i = 0; i < 3; i++)
     {
         weights[i] = -1.0f;
         joint_names = NULL;
-    }
+    }*/
 }
 Vertex::Vertex( Vector4 pos )
 {
@@ -25,14 +26,14 @@ Vertex::Vertex( Vector4 pos )
     normal = Vector3();
     color = Vector3(1,1,1);
     uv = Vector2();
-    weights = new float[3];
+ /*   weights = new float[3];
     joint_names = new char*[3];
 
     for (int i = 0; i < 3; i++)
     {
         weights[i] = -1.0f;
         joint_names = NULL;
-    }
+    }*/
 }
 Vertex::Vertex( Vector4 pos, Vector3 norm )
 {
@@ -40,14 +41,14 @@ Vertex::Vertex( Vector4 pos, Vector3 norm )
     normal = norm;
     color = Vector3(1,1,1);
     uv = Vector2();
-    weights = new float[3];
+ /*   weights = new float[3];
     joint_names = new char*[3];
 
     for (int i = 0; i < 3; i++)
     {
         weights[i] = -1.0f;
         joint_names = NULL;
-    }
+    }*/
 }
 Vertex::Vertex( Vector4 pos, Vector3 norm, Vector3 color )
 {
@@ -55,14 +56,14 @@ Vertex::Vertex( Vector4 pos, Vector3 norm, Vector3 color )
     normal = norm;
     this->color = color;
     uv = Vector2();
-    weights = new float[3];
+ /*   weights = new float[3];
     joint_names = new char*[3];
 
     for (int i = 0; i < 3; i++)
     {
         weights[i] = -1.0f;
         joint_names = NULL;
-    }
+    }*/
 }
 Vertex::Vertex( Vector4 pos,Vector3 norm,
                 Vector3 color, Vector2 uvs )
@@ -71,14 +72,14 @@ Vertex::Vertex( Vector4 pos,Vector3 norm,
     normal = norm;
     this->color = color;
     uv = uvs;
-    weights = new float[3];
+ /*   weights = new float[3];
     joint_names = new char*[3];
 
     for (int i = 0; i < 3; i++)
     {
         weights[i] = -1.0f;
         joint_names[i] = NULL;
-    }
+    }*/
 }
 
 Vertex& Vertex::operator=(const Vertex& vert)
@@ -87,8 +88,9 @@ Vertex& Vertex::operator=(const Vertex& vert)
         return *this;
     position = vert.position;
     normal = vert.normal;
+    color = vert.color;
     uv = vert.uv;
-    if (joint_names != NULL)
+/*    if (joint_names != NULL)
     {
         delete [] joint_names;
         joint_names = NULL;
@@ -107,14 +109,22 @@ Vertex& Vertex::operator=(const Vertex& vert)
         joint_names[i] = (char*)malloc(sizeof(char)*strlen(vert.joint_names[i])+1);
         strncpy(joint_names[i],vert.joint_names[i],strlen(vert.joint_names[i]));
         joint_names[i][strlen(vert.joint_names[i])] = '\0';
-    }
+    } */
     return *this;
 }
 
 Vertex::~Vertex()
 {
-    delete [] joint_names;
-    delete [] weights;
+ /*   if (joint_names != NULL)
+    {
+        delete [] joint_names;
+        joint_names = NULL;
+    }
+    if (weights != NULL)
+    {
+        delete [] weights;
+        weights = NULL;
+    }*/
 }
 
 void Vertex::addWeight(const char* joint_name, float weight)
@@ -202,23 +212,27 @@ Mesh::Mesh(GLenum polygon_type)
     vertices = std::vector<Vertex>();
     polygons = std::vector<int>();
     coordinateSystem = Y_UP;
+    if (polygon_type == GL_LINES || polygon_type == GL_TRIANGLES || polygon_type == GL_QUADS)
+        poly_type = polygon_type;
+    else
+        poly_type = GL_TRIANGLES;
 
-    poly_type = polygon_type;
+    texture = Texture2D(); // to make sure that this is a "valid" texture object
 }
 
 int Mesh::poly_count()
 {
     int divisor = 1;
-    if (poly_type == GL_LINES || poly_type == GL_LINE_STRIP)
+    if (poly_type == GL_LINES)
         divisor = 2;
-    else if (poly_type == GL_TRIANGLES || poly_type == GL_TRIANGLE_STRIP || poly_type == GL_TRIANGLE_FAN)
+    else if (poly_type == GL_TRIANGLES)
         divisor = 3;
-    else if (poly_type == GL_QUADS || poly_type == GL_QUAD_STRIP)
+    else if (poly_type == GL_QUADS)
         divisor = 4;
 
     return polygons.size() / divisor;
 }
-void Mesh::add_triangle(Vector3 &triangle)
+void Mesh::add_triangle(Vector3 triangle)
 {
     for (int i = 0; i < 3; i++)
         polygons.push_back((int)triangle[i]);
@@ -231,7 +245,7 @@ void Mesh::add_triangle(int v1, int v2, int v3)
     polygons.push_back(v3);
 }
 
-void Mesh::add_quad(Vector4 &quad)
+void Mesh::add_quad(Vector4 quad)
 {
     for (int i = 0; i < 4; i++)
         polygons.push_back((int)quad[i]);
@@ -245,7 +259,7 @@ void Mesh::add_quad(int v1, int v2, int v3, int v4)
     polygons.push_back(v4);
 }
 
-void Mesh::add_line(Vector2 &line)
+void Mesh::add_line(Vector2 line)
 {
     polygons.push_back((int)line.x);
     polygons.push_back((int)line.y);
@@ -259,10 +273,7 @@ void Mesh::add_line(int v1, int v2)
 
 void Mesh::set_render_type(GLenum render_type)
 {
-    if (render_type == GL_LINES || render_type == GL_LINE_STRIP ||
-        render_type == GL_TRIANGLES || render_type == GL_TRIANGLE_STRIP ||
-        render_type == GL_TRIANGLE_FAN ||render_type == GL_QUADS ||
-        render_type == GL_QUAD_STRIP)
+    if (render_type == GL_LINES || render_type == GL_TRIANGLES || render_type == GL_QUADS)
         poly_type = render_type;
 }
 
@@ -315,4 +326,19 @@ float Mesh::get_weight_from(int index, const char* name)
 void Mesh::setSkeleton(Joint joint)
 {
     skeleton = joint;
+}
+
+bool Mesh::has_texture()
+{
+    return texture.valid();
+}
+
+void Mesh::use_offset(bool offset_type)
+{
+    is_offset = offset_type;
+}
+
+bool Mesh::offset()
+{
+    return is_offset;
 }

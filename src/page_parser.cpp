@@ -7,14 +7,16 @@
 
 using namespace PAGE;
 
-bool Parser::parse_egg(const char* filename, Mesh* mesh)
+bool Parser::parse_egg(const char* filename, Mesh* mesh,  GLenum render_type, bool offset)
 {
 	std::ifstream file;
 	file.open(filename, std::ifstream::in);
 
 	if (mesh == NULL)
-        mesh = new Mesh();
-
+        mesh = new Mesh(render_type);
+    else
+        mesh->set_render_type(render_type);
+    mesh->use_offset(offset);
 	if (!file.is_open())
 	{
 		Debug::LogError("Failed to open egg file correctly.");
@@ -47,7 +49,10 @@ bool Parser::parse_egg(const char* filename, Mesh* mesh)
 					mesh->set_coordinate_system(Mesh::Y_UP_LEFT);
 			}
 			else if (strncmp(token,"Texture",7) == 0 && strlen(token) == 7)
+			{
+			    Debug::Log("TEXTURE FOUND");
 				Parser::__parse_egg_texture(file,mesh);
+			}
 			// if we found Vertex (not VertexPool):
 			else if (strncmp(token,"Vertex",6) == 0 && strlen(token) == 6)
 				// go into parse_vertex
@@ -74,7 +79,6 @@ bool Parser::parse_egg(const char* filename, Mesh* mesh)
 		Debug::LogError("Failed to close egg file correctly.");
 		return false;
 	}
-
 	return true;
 }
 
@@ -188,16 +192,17 @@ void Parser::__parse_egg_vertex(std::ifstream &file, Mesh* mesh)
 	char line[256];
 	file.getline(line, 256);
 
-	PAGE::Vector4 position;
-	PAGE::Vector3 normals;
-	PAGE::Vector2 uv;
+	PAGE::Vector4 position = Vector4();
+	PAGE::Vector3 normals = Vector3();
+	PAGE::Vector2 uv = Vector2();
 	char* token = strtok(line," ");
 	for (int i = 0; i < 3; i++)
 	{
-		position[i] = atof(token) / 100.0f;
+		position[i] = atof(token);
 		token = strtok(NULL," ");
 	}
 	position[3] = 1.0f;
+    v.position = position;
 	// now for normals
 	file.getline(line,256);
 	token = strtok(line,"<> {}");
@@ -207,38 +212,54 @@ void Parser::__parse_egg_vertex(std::ifstream &file, Mesh* mesh)
 		normals[i] = atof(token);
 		token = strtok(NULL," ");
 	}
-	// now for uvs
-	file.getline(line,256);
-	token = strtok(line,"<> {}");
-	token = strtok(NULL,"<> {}");
-	for (int i = 0; i < 2; i++)
+    v.normal = normals;
+	if (mesh->has_texture())
 	{
-		uv[i] = atof(token);
-		token = strtok(NULL," ");
+        // now for uvs
+        file.getline(line,256);
+        token = strtok(line,"<> {}");
+        token = strtok(NULL,"<> {}");
+        for (int i = 0; i < 2; i++)
+        {
+            uv[i] = atof(token);
+            token = strtok(NULL," ");
+        }
+        v.uv = uv;
 	}
-
-	v.position = position;
-	v.normal = normals;
-	v.uv = uv;
 
 	mesh->add_vertex(v);
 }
 
 void Parser::__parse_egg_polygon(std::ifstream &file, Mesh* mesh)
 {
-	int  index[3];
+    int counter = 0;
+	Vector4 index = Vector4();
 	char line[256];
-	file.getline(line, 256);
-	file.getline(line, 256);
-	file.getline(line, 256);
-
-	char* token = strtok(line,"<> {}");
-	for (int i = 0; i < 3; i++)
+	while (true)
 	{
-		token = strtok(NULL,"<> {}");
-		index[i] = atoi(token) - 1;
+        file.getline(line, 256);
+        char* token = strtok(line,"<> {}");
+        if (strncmp(token,"VertexRef",9) == 0)
+        {
+            do
+            {
+                token = strtok(NULL,"<> {}");
+                if (strncmp(token,"Ref",3) == 0)
+                    break;
+                if (mesh->offset())
+                    index[counter++] = atoi(token) - 1;
+                else
+                    index[counter++] = atoi(token);
+            } while (strncmp(token,"Ref",3) != 0);
+            if (counter == 2)
+                mesh->add_line(index.toVector2());
+            if (counter == 3)
+                mesh->add_triangle(index.toVector3());
+            if (counter == 4)
+                mesh->add_quad(index);
+            break;
+        }
 	}
-	mesh->add_triangle(index[0], index[1], index[2]);
 }
 
 void Parser::__parse_egg_skeleton(char* name, std::ifstream &file, Mesh* mesh)

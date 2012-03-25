@@ -2,12 +2,10 @@
 #define __PAGE_MESH_H
 
 #include "page_vector.h"
+#include "page_utility.h"
 #include "page_debug.h"
 #include "page_joint.h"
 #include "page_texture.h"
-
-#include <GL/glew.h>
-#include <GL/glfw.h>
 
 #include <vector>
 
@@ -49,8 +47,8 @@ namespace PAGE
 		float normal[3];
 		float color[3];
 		float uv[2];
-		float weights[3];
-		char* joint_name[3];
+	//	float weights[3];
+	//	char* joint_name[3];
 	};
 
 	class Mesh
@@ -62,14 +60,14 @@ namespace PAGE
 			int poly_count ();
 			int vert_count () { return vertices.size(); }
 			int poly_index_count() { return polygons.size(); }
-			void add_vertex(Vertex &v) { vertices.push_back(Vertex(v.position,v.normal,v.color,v.uv)); }
-			void add_triangle(Vector3 &triangle);
+			void add_vertex(Vertex &v) { vertices.push_back(v); }
+			void add_triangle(Vector3 triangle);
 			void add_triangle(int v1, int v2, int v3);
 
-			void add_quad(Vector4 &quad);
+			void add_quad(Vector4 quad);
 			void add_quad(int v1, int v2, int v3, int v4);
 
-			void add_line(Vector2 &line);
+			void add_line(Vector2 line);
 			void add_line(int v1, int v2);
 
 			void set_render_type(GLenum render_type);
@@ -103,6 +101,11 @@ namespace PAGE
 			void set_texture(Texture2D &tex) { texture = tex; }
 			Texture2D get_texture() { return texture; }
 
+			bool has_texture();
+
+			void use_offset(bool offset_type);
+			bool offset();
+
 		private:
 			CoordinateSystem coordinateSystem;
 			std::vector<Vertex> vertices;
@@ -110,6 +113,7 @@ namespace PAGE
 			Texture2D texture;
 			Joint skeleton;
 			GLenum poly_type;
+			bool is_offset;
 	};
 }
 

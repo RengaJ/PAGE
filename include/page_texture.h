@@ -26,7 +26,7 @@ namespace PAGE
 			void set_mag_filter(GLenum filter);
 			void set_width_height(int w, int h);
 
-			Texture2D operator=(const Texture2D &texture);
+			Texture2D& operator=(const Texture2D &texture);
 
 			GLenum Format();
 			GLenum UWrap();
@@ -37,6 +37,8 @@ namespace PAGE
 			int Height();
 			int Width();
 			char* Name();
+
+			bool valid();
 
 		private:
 			int height;

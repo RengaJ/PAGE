@@ -7,7 +7,9 @@ using namespace PAGE;
 
 Texture2D::Texture2D()
 {
-	filename = NULL;
+	filename = (char*)malloc(sizeof(char)*8);
+	strncpy(filename, "Unknown", 7);
+	filename[7] = '\0';
 	format = GL_RGB;
 	wrap_u = GL_REPEAT;
 	wrap_v = GL_REPEAT;
@@ -147,7 +149,12 @@ int Texture2D::Width()
 	return width;
 }
 
-Texture2D Texture2D::operator=(const Texture2D &texture)
+bool Texture2D::valid()
+{
+    return (strncmp(filename,"Unknown",7) != 0);
+}
+
+Texture2D& Texture2D::operator=(const Texture2D &texture)
 {
     if (this == &texture)
         return *this;

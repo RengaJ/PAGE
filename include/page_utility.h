@@ -3,6 +3,9 @@
 
 #define TEXTURE_PATH "./models/"
 
+#include <GL/glew.h>
+#include <GL/glfw.h>
+
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>

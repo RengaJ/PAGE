@@ -10,7 +10,7 @@ namespace PAGE
 {
 	namespace Parser
 	{
-        bool parse_egg(const char* filename, Mesh* mesh);
+        bool parse_egg(const char* filename, Mesh* mesh, GLenum render_type = GL_TRIANGLES, bool offset = true);
         void __parse_egg_texture(std::ifstream &file, Mesh* mesh);
         void __parse_egg_vertex(std::ifstream &file, Mesh* mesh);
         void __parse_egg_polygon(std::ifstream &file, Mesh* mesh);
