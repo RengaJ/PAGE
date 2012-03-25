@@ -8,7 +8,7 @@ namespace PAGE
     class DOF
     {
         public:
-            enum Freedom { X = 1, Y = 2, Z = 4, H = 32, P = 16, R = 8 };
+            enum Freedom { X = 0, Y = 1, Z = 2, H = 3, P = 4, R = 5 };
             DOF& operator=(const DOF& other);
 
             void virtual set_value(float value);

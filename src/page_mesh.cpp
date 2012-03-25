@@ -11,6 +11,7 @@ Vertex::Vertex()
     normal = Vector3();
     color = Vector3(1,1,1);
     uv = Vector2();
+    weights = std::map<std::string, float>();
  /*   weights = new float[3];
     joint_names = new char*[3];
 
@@ -26,6 +27,7 @@ Vertex::Vertex( Vector4 pos )
     normal = Vector3();
     color = Vector3(1,1,1);
     uv = Vector2();
+    weights = std::map<std::string, float>();
  /*   weights = new float[3];
     joint_names = new char*[3];
 
@@ -41,6 +43,7 @@ Vertex::Vertex( Vector4 pos, Vector3 norm )
     normal = norm;
     color = Vector3(1,1,1);
     uv = Vector2();
+    weights = std::map<std::string, float>();
  /*   weights = new float[3];
     joint_names = new char*[3];
 
@@ -56,6 +59,7 @@ Vertex::Vertex( Vector4 pos, Vector3 norm, Vector3 color )
     normal = norm;
     this->color = color;
     uv = Vector2();
+    weights = std::map<std::string, float>();
  /*   weights = new float[3];
     joint_names = new char*[3];
 
@@ -72,6 +76,7 @@ Vertex::Vertex( Vector4 pos,Vector3 norm,
     normal = norm;
     this->color = color;
     uv = uvs;
+    weights = std::map<std::string, float>();
  /*   weights = new float[3];
     joint_names = new char*[3];
 
@@ -90,46 +95,22 @@ Vertex& Vertex::operator=(const Vertex& vert)
     normal = vert.normal;
     color = vert.color;
     uv = vert.uv;
-/*    if (joint_names != NULL)
-    {
-        delete [] joint_names;
-        joint_names = NULL;
-    }
-    if (weights != NULL)
-    {
-        delete [] weights;
-        weights = NULL;
-    }
-    weights = new float[3];
-    joint_names = new char*[3];
-
-    for (int i = 0; i < 3; i++)
-    {
-        weights[i] = vert.weights[i];
-        joint_names[i] = (char*)malloc(sizeof(char)*strlen(vert.joint_names[i])+1);
-        strncpy(joint_names[i],vert.joint_names[i],strlen(vert.joint_names[i]));
-        joint_names[i][strlen(vert.joint_names[i])] = '\0';
-    } */
+    weights.clear();
+    weights = vert.weights;
     return *this;
 }
 
 Vertex::~Vertex()
 {
- /*   if (joint_names != NULL)
-    {
-        delete [] joint_names;
-        joint_names = NULL;
-    }
-    if (weights != NULL)
-    {
-        delete [] weights;
-        weights = NULL;
-    }*/
 }
 
-void Vertex::addWeight(const char* joint_name, float weight)
+void Vertex::addWeight(std::string joint_name, float weight)
 {
-    for (int i = 0; i < 3; i++)
+    if (joint_name == "")
+        return;
+    std::cout << "Adding weight of " << weight << " to joint labeled: " << joint_name << std::endl;
+    weights[joint_name] = weight;
+/*    for (int i = 0; i < 3; i++)
     {
         if (joint_names[i] == NULL)
         {
@@ -145,24 +126,29 @@ void Vertex::addWeight(const char* joint_name, float weight)
             weights[i] = weight;
             break;
         }
-    }
+    } */
 }
 
-float Vertex::getWeight(const char* joint_name)
+float Vertex::getWeight(std::string joint_name)
 {
-    for (int i = 0; i < 3; i++)
+    if (weights.find(joint_name) != weights.end())
+        return weights[joint_name];
+    return -1;
+/*    for (int i = 0; i < 3; i++)
     {
         if (joint_names[i] != NULL)
             if (strncmp(joint_names[i], joint_name, strlen(joint_name)) == 0)
                 return weights[i];
     }
 
-    return -1.0f;
+    return -1.0f; */
 }
 
-void Vertex::removeWeight(const char* joint_name)
+void Vertex::removeWeight(std::string joint_name)
 {
-    for (int i = 0; i < 3; i++)
+    if (weights.find(joint_name) != weights.end())
+        weights.erase(joint_name);
+/*    for (int i = 0; i < 3; i++)
     {
         if (joint_names[i] != NULL)
         {
@@ -174,12 +160,13 @@ void Vertex::removeWeight(const char* joint_name)
                 break;
             }
         }
-    }
+    } */
 }
 
 void Vertex::removeAllWeights()
 {
-    for (int i = 0; i < 3; i++)
+    weights.clear();
+/*    for (int i = 0; i < 3; i++)
     {
         if (joint_names[i] != NULL)
         {
@@ -187,23 +174,25 @@ void Vertex::removeAllWeights()
             joint_names[i] = NULL;
             weights[i] = -1;
         }
-    }
+    } */
 }
 
 bool Vertex::hasWeight(float weight)
 {
-    for (int i = 0; i < 3; i++)
-        if (weights[i] == weight)
+    std::map<std::string, float>::iterator itr = weights.begin();
+    while (itr != weights.end())
+        if (itr->second == weight)
             return true;
     return false;
 }
 
-bool Vertex::boundTo(const char* joint_name)
+bool Vertex::boundTo(std::string joint_name)
 {
-    for (int i = 0; i < 3; i++)
+    /*for (int i = 0; i < 3; i++)
         if (joint_names[i] != NULL && strncmp(joint_names[i],joint_name,strlen(joint_name)) == 0)
             return true;
-    return false;
+    return false;*/
+    return (weights.find(joint_name) != weights.end());
 }
 
 
@@ -303,20 +292,20 @@ void Mesh::convert_verts(Vertex_S vert[])
     }
 }
 // add a weight to a single vertex
-void Mesh::add_weight_to(int index, const char* name, float weight)
+void Mesh::add_weight_to(int index, std::string name, float weight)
 {
 	if (index < 0 || index >= vertices.size())
 		return;
 	vertices[index].addWeight(name,weight);
 }
 // add a weight to multiple vertices
-void Mesh::add_weight_to(int indexes[], int count, const char* name, float weight)
+void Mesh::add_weight_to(int indexes[], int count, std::string name, float weight)
 {
 	for (int i = 0; i < count; i++)
 		add_weight_to(indexes[i],name,weight);
 }
 // get weight from vertex joint name
-float Mesh::get_weight_from(int index, const char* name)
+float Mesh::get_weight_from(int index, std::string name)
 {
 	if (index < 0 || index >= vertices.size())
 		return -1.0f;

@@ -8,6 +8,8 @@
 #include "page_texture.h"
 
 #include <vector>
+#include <string>
+#include <map>
 
 namespace PAGE
 {
@@ -25,20 +27,22 @@ namespace PAGE
 
 			Vertex& operator=(const Vertex &vert);
 
-			void addWeight(const char* joint_name, float weight);
-			float getWeight(const char* joint_name);
-			void removeWeight(const char* joint_name);
+			void addWeight(std::string joint_name, float weight);
+			float getWeight(std::string joint_name);
+			void removeWeight(std::string joint_name);
 			void removeAllWeights();
 
 			bool hasWeight(float weight);
-			bool boundTo(const char* joint_name);
+			bool boundTo(std::string joint_name);
 
 			Vector4 position;
 			Vector3 normal;
 			Vector3 color;
 			Vector2 uv;
-			float* weights;
-			char** joint_names;
+
+			std::map<std::string,float> weights;
+		//	float* weights;
+		//	char** joint_names;
 	};
 
 	struct Vertex_S
@@ -84,15 +88,15 @@ namespace PAGE
 			void set_coordinate_system(CoordinateSystem system) { coordinateSystem = system; }
 
             // add a weight to a single vertex
-			void add_weight_to(int index, const char* name, float weight);
+			void add_weight_to(int index, std::string name, float weight);
 			// add a weight to multiple vertices
-			void add_weight_to(int indexes[], int count, const char* name, float weight);
+			void add_weight_to(int indexes[], int count, std::string name, float weight);
 			// get weight from vertex joint name
-			float get_weight_from(int index, const char* name);
+			float get_weight_from(int index, std::string name);
 			// get all weights from index
 			std::vector<float> get_all_weights(int index);
 			// get all vertices bound to joint
-			std::vector<Vertex> get_all_verts(const char* name);
+			std::vector<Vertex> get_all_verts(std::string name);
 			// get all vertices bound to a joint with weight
 			std::vector<Vertex> get_all_verts(float weight);
             // sets the root of the skeleton

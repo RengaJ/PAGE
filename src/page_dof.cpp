@@ -16,6 +16,10 @@ DOF::DOF(float min, float max, Freedom constraint)
         min_value = max;
         max_value = min;
     }
+    if (min_value < 0)
+        m_value = 0;
+    else
+        m_value = min_value;
     m_constraint = constraint;
 }
 

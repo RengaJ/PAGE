@@ -2,6 +2,7 @@
 #define __PAGE_MATRIX_H
 
 #include "page_vector.h"
+#include <iostream>
 
 namespace PAGE
 {
@@ -98,8 +99,19 @@ namespace PAGE
 			Vector4& operator[](int i);
 			bool operator==(Matrix44 &matrix);
 			bool operator!=(Matrix44 &matrix);
-			Matrix44 operator*(Matrix44 &matrix);
+			Matrix44 operator*(Matrix44 matrix);
 			Vector4 operator*(Vector4 &point);
+			friend std::ostream& operator<<(std::ostream &out, Matrix44 matrix)
+			{
+			    for (int i = 0; i < 4; i++)
+                {
+                    out << "[ ";
+                    for (int j = 0; j < 4; j++)
+                        out << matrix[j][i] << " ";
+                    out << "]\n";
+                }
+                return out;
+			}
 			// non-altering transpose ( matrix.transpose() will not alter matrix )
 			Matrix44 transpose();
 			float determinant();
@@ -107,12 +119,11 @@ namespace PAGE
 			// non-altering inverse ( matrix.inverse() will not alter matrix )
 			Matrix44 inverse();
 			Matrix44 cofactor();
+			Matrix44f toArray();
 			static Matrix44 transpose(Matrix44 &matrix) { return matrix.transpose(); }
 			static float determinant(Matrix44 &matrix) { return matrix.determinant(); }
 			static Matrix44 inverse(Matrix44 &matrix) { return matrix.inverse(); }
 			static Matrix44 cofactor(Matrix44 &matrix) { return matrix.cofactor(); }
-
-			Matrix44f toArray();
 			static Matrix44f toArray(Matrix44& matrix) { return matrix.toArray(); }
 		private:
 			Vector4 v1;

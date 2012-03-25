@@ -323,10 +323,14 @@ bool Matrix44::operator!=(Matrix44 &matrix)
 		   v3 == matrix.v3 || v4 == matrix.v4;
 }
 // Matrix Multiplication Operator
-Matrix44 Matrix44::operator*(Matrix44 &matrix)
+Matrix44 Matrix44::operator*(Matrix44 matrix)
 {
 	Matrix44 new_matrix;
-	new_matrix.v1[0] = v1[0]*matrix[0][0] + v2[0]*matrix[0][1] + v3[0]*matrix[0][2] + v4[0]*matrix[0][3];
+
+	for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            new_matrix[i][j] = v1[j]*matrix[i][0] + v2[j]*matrix[i][1] + v3[j]*matrix[i][2] + v4[j]*matrix[i][3];
+/*	new_matrix.v1[0] = v1[0]*matrix[0][0] + v2[0]*matrix[0][1] + v3[0]*matrix[0][2] + v4[0]*matrix[0][3];
 	new_matrix.v1[1] = v1[1]*matrix[0][0] + v2[1]*matrix[0][1] + v3[1]*matrix[0][2] + v4[1]*matrix[0][3];
 	new_matrix.v1[2] = v1[2]*matrix[0][0] + v2[2]*matrix[0][1] + v3[2]*matrix[0][2] + v4[2]*matrix[0][3];
 	new_matrix.v1[3] = v1[3]*matrix[0][0] + v2[3]*matrix[0][1] + v3[3]*matrix[0][2] + v4[3]*matrix[0][3];
@@ -344,7 +348,7 @@ Matrix44 Matrix44::operator*(Matrix44 &matrix)
 	new_matrix.v4[0] = v1[0]*matrix[3][0] + v2[0]*matrix[3][1] + v3[0]*matrix[3][2] + v4[0]*matrix[3][3];
 	new_matrix.v4[1] = v1[1]*matrix[3][0] + v2[1]*matrix[3][1] + v3[1]*matrix[3][2] + v4[1]*matrix[3][3];
 	new_matrix.v4[2] = v1[2]*matrix[3][0] + v2[2]*matrix[3][1] + v3[2]*matrix[3][2] + v4[2]*matrix[3][3];
-	new_matrix.v4[3] = v1[3]*matrix[3][0] + v2[3]*matrix[3][1] + v3[3]*matrix[3][2] + v4[3]*matrix[3][3];
+	new_matrix.v4[3] = v1[3]*matrix[3][0] + v2[3]*matrix[3][1] + v3[3]*matrix[3][2] + v4[3]*matrix[3][3]; */
 	return new_matrix;
 }
 // Vector Multiplication Operator
@@ -363,11 +367,10 @@ Vector4 Matrix44::operator*(Vector4 &point)
 // non-altering transpose ( matrix.transpose() will not alter matrix )
 Matrix44 Matrix44::transpose()
 {
-    Matrix44 matrix;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            matrix[i][j] = (*this)[j][i];
-    return matrix;
+    Vector4 v1_n(v1), v2_n(v2), v3_n(v3), v4_n(v4);
+    swap(&v1_n[1],&v2_n[0]); swap(&v1_n[2],&v3_n[0]); swap(&v1_n[3],&v4_n[0]);
+    swap(&v2_n[2],&v3_n[1]); swap(&v2_n[3],&v4_n[1]); swap(&v3_n[3],&v4_n[2]);
+    return Matrix44(v1_n,v2_n,v3_n,v4_n);
 }
 float Matrix44::determinant()
 {

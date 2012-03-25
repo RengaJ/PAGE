@@ -498,7 +498,7 @@ void render_mesh()
 	glBindVertexArray(bufferId[0]);
 	GL_CHECK("DRAW: Could not bind the VAO to draw mesh.");
 
-	glDrawElements(GL_LINES, mesh.poly_index_count(), GL_UNSIGNED_INT, (GLvoid*)0);
+	glDrawElements(GL_QUADS, mesh.poly_index_count(), GL_UNSIGNED_INT, (GLvoid*)0);
 	GL_CHECK("DRAW: Could not draw the mesh.");
 
 	glBindVertexArray(0);

@@ -9,8 +9,12 @@ Joint::Joint(std::string name)
     inverse_bind_matrix = bind_matrix.inverse();
     parent = NULL;
     dofs = new DOF*[6];
-    for (int i = 0; i < 6; i++)
-        dofs[i] = NULL;
+    dofs[0] = new XDOF(0,0);
+    dofs[1] = new YDOF(0,0);
+    dofs[2] = new ZDOF(0,0);
+    dofs[3] = new HDOF(0,0,false);
+    dofs[4] = new PDOF(0,0,false);
+    dofs[5] = new RDOF(0,0,false);
 
     local_matrix = Matrix44(1.0f);
     world_matrix = Matrix44(1.0f);
@@ -43,13 +47,14 @@ Matrix44f Joint::get_inverse_bind_matrixF()
     return inverse_bind_matrix.toArray();
 }
 
-void Joint::set_parent(Joint parent)
+void Joint::set_parent(Joint* parent)
 {
-    this->parent = &parent;
+    this->parent = parent;
 }
 void Joint::add_child(Joint child)
 {
     children.push_back(&child);
+    children[children.size()-1]->set_parent(this);
 }
 
 Joint* Joint::get_child(std::string name)
@@ -82,26 +87,17 @@ void Joint::remove_parent()
 
 void Joint::update()
 {
+    local_matrix = Matrix44(1.0f);
+    for (int i = 0; i < 6; i++)
+        local_matrix = local_matrix * dofs[i]->toMatrix();
+
     for (int i = 0; i < children.size(); i++)
         children[i]->update();
 }
 
 void Joint::add_dof(DOF* dof)
 {
-    for (int i = 0; i < 6; i++)
-    {
-        if (dofs[i] == NULL)
-        {
-            dofs[i] = dof;
-            break;
-        }
-        // Since we are here, we know that dofs[i] != NULL
-        if (dof->get_constraint() == dofs[i]->get_constraint())
-        {
-            dofs[i] = dof;
-            break;
-        }
-    }
+    *(dofs[dof->get_constraint()]) = *dof;
 }
 
 std::string Joint::get_name()

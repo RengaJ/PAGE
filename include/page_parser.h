@@ -17,6 +17,7 @@ namespace PAGE
         void __parse_egg_skeleton(char* name, std::ifstream &file, Mesh* mesh);
 		Joint __parse_egg_joint(char* name, std::ifstream &file, Mesh* mesh);
         void __parse_egg_animation(const char* filename, char* animation_name, Mesh* mesh);
+        void __parse_egg_animation_joint(std::ifstream &file, const char* joint_name);
 	}
 }
 #endif
