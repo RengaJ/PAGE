@@ -310,8 +310,8 @@ void create_mesh()
 
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)normal_offset);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)joint_offset);
-    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)weight_offset);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)joint_offset);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)weight_offset);
     GL_CHECK("Failed to set VAO attributes.");
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId[2]);

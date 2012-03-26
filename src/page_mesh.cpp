@@ -202,25 +202,23 @@ void Mesh::convert_verts(Vertex_S vert[])
         for (std::map<std::string, float>::iterator itr = vertices[i].weights.begin();
 				itr != vertices[i].weights.end(); itr++)
 		{
-			for (int j = 0; j < 3; j++)
+			v.joints[count] = -1;
+			v.weights[count] = -1.0f;
+			if (itr->first == "joint1")
 			{
-				if (itr->first == "joint1")
-				{
-					v.joints[count] = 0;
-					break;
-				}
-				if (itr->first == "joint2")
-				{
-					v.joints[count] = 1;
-					break;
-				}
-				if (itr->first == "joint3")
-				{
-					v.joints[count] = 2;
-					break;
-				}
+				v.joints[count] = 0;
+				v.weights[count] = itr->second;
 			}
-			v.weights[count] = itr->second;
+			if (itr->first == "joint2")
+			{
+				v.joints[count] = 1;
+				v.weights[count] = itr->second;
+			}
+			if (itr->first == "joint3")
+			{
+				v.joints[count] = 2;
+				v.weights[count] = itr->second;
+			}
 			count++;
 		}
         vert[i] = v;
