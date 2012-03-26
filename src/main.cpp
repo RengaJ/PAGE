@@ -82,6 +82,7 @@ GLuint bufferId[3] = { 0 };
 GLuint shaderId[3] = { 0 };
 GLuint TexId;
 
+GLuint BoneMatrixUniformLocation;
 GLuint DiffuseColorUniformLocation;
 
 float PandaRotation = 0;
@@ -250,6 +251,9 @@ void create_mesh()
 	GL_CHECK("Failed to attach shaders.");
 
 	glBindAttribLocation(shaderId[0], 0, "in_position"); // Position of the vertex
+	glBindAttribLocation(shaderId[0], 1, "in_normal");
+	glBindAttribLocation(shaderId[0], 2, "joint_index");
+	glBindAttribLocation(shaderId[0], 3, "weights");
     GL_CHECK("Failed to bind attribute locations.");
 
 	glLinkProgram(shaderId[0]); GL_CHECK("Failed to link the shader program.");
@@ -260,10 +264,12 @@ void create_mesh()
     ProjectionMatrixUniformLocation = glGetUniformLocation(shaderId[0], "ProjectionMatrix");
     GL_CHECK("Could not get the matrix uniform locations.");
 
+	BoneMatrixUniformLocation = glGetUniformLocation(shaderId[0], "joints");
+	GL_CHECK("Could not get joints uniform location");
     DiffuseColorUniformLocation = glGetUniformLocation(shaderId[0], "uColor");
     GL_CHECK("Could not get color uniform location.");
 
-    Debug::LogLine("Reticulating vertices...");
+    Debug::LogLine("Reticulating Vertices...");
     Vertex_S vertices[mesh.vert_count()];
     mesh.convert_verts(vertices);
 	Debug::Log("Complete.");
@@ -279,6 +285,9 @@ void create_mesh()
 	glBindVertexArray(bufferId[0]); GL_CHECK("Failed to bind the VAO.");
 
 	glEnableVertexAttribArray(0); // position
+	glEnableVertexAttribArray(1); // normal
+	glEnableVertexAttribArray(2); // joint
+	glEnableVertexAttribArray(3); // weight
 	GL_CHECK("Failed to enable vertex attributes.");
 
 	glGenBuffers(2, &bufferId[1]);
@@ -294,8 +303,15 @@ void create_mesh()
 	int normal_offset = sizeof(vertices[0].position);
 	int color_offset = normal_offset + sizeof(vertices[0].normal);
 	int uv_offset = color_offset + sizeof(vertices[0].color);
+	int joint_offset = uv_offset + sizeof(vertices[0].uv);
+	int weight_offset = joint_offset + sizeof(vertices[0].joints);
+
+	std::cout << "About to perform vertex attrib pointer stuff..." << std::endl;
 
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)normal_offset);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)joint_offset);
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (GLvoid*)weight_offset);
     GL_CHECK("Failed to set VAO attributes.");
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId[2]);
@@ -353,6 +369,9 @@ void render_mesh()
             normalMatrix[i][j] = ModelMatrix[i][j];
     normalMatrix = glm::transpose(glm::inverse(normalMatrix));
 
+    std::vector<Matrix44f> joint_matrix;
+    mesh.skeleton_to_array(&joint_matrix);
+
 	glUseProgram(shaderId[0]);
 	GL_CHECK("DRAW: Could not use the shader program.");
 
@@ -363,13 +382,16 @@ void render_mesh()
     glUniformMatrix4fv(NormalMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
     GL_CHECK("Could not set the shader uniforms [VERTEX SHADER]")
 
+    glUniformMatrix4fv(BoneMatrixUniformLocation, 3, GL_FALSE, joint_matrix[0].mat);
+    GL_CHECK("Could not set the bone matrix uniform location.")
+
     glUniform3fv(DiffuseColorUniformLocation, 1, glm::value_ptr(color));
     GL_CHECK("Could not set the shader uniform for Diffuse Color.")
 
 	glBindVertexArray(bufferId[0]);
 	GL_CHECK("DRAW: Could not bind the VAO to draw mesh.");
 
-	glDrawElements(GL_QUADS, mesh.poly_index_count(), GL_UNSIGNED_INT, (GLvoid*)0);
+	glDrawElements(GL_LINE_STRIP, mesh.poly_index_count(), GL_UNSIGNED_INT, (GLvoid*)0);
 	GL_CHECK("DRAW: Could not draw the mesh.");
 
 	glBindVertexArray(0);

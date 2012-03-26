@@ -319,36 +319,16 @@ bool Matrix44::operator==(Matrix44 &matrix)
 // Inequality Operator
 bool Matrix44::operator!=(Matrix44 &matrix)
 {
-	return v1 == matrix.v1 || v2 == matrix.v2 ||
-		   v3 == matrix.v3 || v4 == matrix.v4;
+	return v1 != matrix.v1 || v2 != matrix.v2 ||
+		   v3 != matrix.v3 || v4 != matrix.v4;
 }
 // Matrix Multiplication Operator
 Matrix44 Matrix44::operator*(Matrix44 matrix)
 {
 	Matrix44 new_matrix;
-
 	for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             new_matrix[i][j] = v1[j]*matrix[i][0] + v2[j]*matrix[i][1] + v3[j]*matrix[i][2] + v4[j]*matrix[i][3];
-/*	new_matrix.v1[0] = v1[0]*matrix[0][0] + v2[0]*matrix[0][1] + v3[0]*matrix[0][2] + v4[0]*matrix[0][3];
-	new_matrix.v1[1] = v1[1]*matrix[0][0] + v2[1]*matrix[0][1] + v3[1]*matrix[0][2] + v4[1]*matrix[0][3];
-	new_matrix.v1[2] = v1[2]*matrix[0][0] + v2[2]*matrix[0][1] + v3[2]*matrix[0][2] + v4[2]*matrix[0][3];
-	new_matrix.v1[3] = v1[3]*matrix[0][0] + v2[3]*matrix[0][1] + v3[3]*matrix[0][2] + v4[3]*matrix[0][3];
-
-	new_matrix.v2[0] = v1[0]*matrix[1][0] + v2[0]*matrix[1][1] + v3[0]*matrix[1][2] + v4[0]*matrix[1][3];
-	new_matrix.v2[1] = v1[1]*matrix[1][0] + v2[1]*matrix[1][1] + v3[1]*matrix[1][2] + v4[1]*matrix[1][3];
-	new_matrix.v2[2] = v1[2]*matrix[1][0] + v2[2]*matrix[1][1] + v3[2]*matrix[1][2] + v4[2]*matrix[1][3];
-	new_matrix.v2[3] = v1[3]*matrix[1][0] + v2[3]*matrix[1][1] + v3[3]*matrix[1][2] + v4[3]*matrix[1][3];
-
-	new_matrix.v3[0] = v1[0]*matrix[2][0] + v2[0]*matrix[2][1] + v3[0]*matrix[2][2] + v4[0]*matrix[2][3];
-	new_matrix.v3[1] = v1[1]*matrix[2][0] + v2[1]*matrix[2][1] + v3[1]*matrix[2][2] + v4[1]*matrix[2][3];
-	new_matrix.v3[2] = v1[2]*matrix[2][0] + v2[2]*matrix[2][1] + v3[2]*matrix[2][2] + v4[2]*matrix[2][3];
-	new_matrix.v3[3] = v1[3]*matrix[2][0] + v2[3]*matrix[2][1] + v3[3]*matrix[2][2] + v4[3]*matrix[2][3];
-
-	new_matrix.v4[0] = v1[0]*matrix[3][0] + v2[0]*matrix[3][1] + v3[0]*matrix[3][2] + v4[0]*matrix[3][3];
-	new_matrix.v4[1] = v1[1]*matrix[3][0] + v2[1]*matrix[3][1] + v3[1]*matrix[3][2] + v4[1]*matrix[3][3];
-	new_matrix.v4[2] = v1[2]*matrix[3][0] + v2[2]*matrix[3][1] + v3[2]*matrix[3][2] + v4[2]*matrix[3][3];
-	new_matrix.v4[3] = v1[3]*matrix[3][0] + v2[3]*matrix[3][1] + v3[3]*matrix[3][2] + v4[3]*matrix[3][3]; */
 	return new_matrix;
 }
 // Vector Multiplication Operator
@@ -413,17 +393,18 @@ Matrix44 Matrix44::cofactor()
     new_matrix.v3[2] = Matrix33(v1[0],v1[1],v1[3],v2[0],v2[1],v2[3],v4[0],v4[1],v4[3]).determinant();
     new_matrix.v4[2] = Matrix33(v1[0],v1[1],v1[3],v2[0],v2[1],v2[3],v3[0],v3[1],v3[3]).determinant();
 
-    new_matrix.v1[2] = Matrix33(v2[0],v2[1],v2[2],v3[0],v3[1],v3[2],v4[0],v4[1],v4[2]).determinant();
-    new_matrix.v2[2] = Matrix33(v1[0],v1[1],v1[2],v3[0],v3[1],v3[2],v4[0],v4[1],v4[2]).determinant();
-    new_matrix.v3[2] = Matrix33(v1[0],v1[1],v1[2],v2[0],v2[1],v2[2],v4[0],v4[1],v4[2]).determinant();
-    new_matrix.v4[2] = Matrix33(v1[0],v1[1],v1[2],v2[0],v2[1],v2[2],v3[0],v3[1],v3[2]).determinant();
+    new_matrix.v1[3] = Matrix33(v2[0],v2[1],v2[2],v3[0],v3[1],v3[2],v4[0],v4[1],v4[2]).determinant();
+    new_matrix.v2[3] = Matrix33(v1[0],v1[1],v1[2],v3[0],v3[1],v3[2],v4[0],v4[1],v4[2]).determinant();
+    new_matrix.v3[3] = Matrix33(v1[0],v1[1],v1[2],v2[0],v2[1],v2[2],v4[0],v4[1],v4[2]).determinant();
+    new_matrix.v4[3] = Matrix33(v1[0],v1[1],v1[2],v2[0],v2[1],v2[2],v3[0],v3[1],v3[2]).determinant();
 
     return new_matrix;
 }
 
 Matrix44f Matrix44::toArray()
 {
-    Matrix44f new_mat = Matrix44f();
+    Matrix44f new_mat;
+    new_mat.mat = new float[16];
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             new_mat.mat[(i*4)+j] = (*this)[i][j];

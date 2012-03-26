@@ -6,9 +6,9 @@
 
 namespace PAGE
 {
-	struct Matrix22f { 	float mat[4]; };
-	struct Matrix33f { float mat[9]; };
-	struct Matrix44f { float mat[16]; };
+	struct Matrix22f { float* mat; };
+	struct Matrix33f { float* mat; };
+	struct Matrix44f { float* mat; };
 
 	class Matrix22
 	{

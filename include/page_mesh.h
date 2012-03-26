@@ -52,8 +52,8 @@ namespace PAGE
 		float normal[3];
 		float color[3];
 		float uv[2];
-	//	float weights[3];
-	//	char* joint_name[3];
+		int joints[3];
+		float weights[3];
 	};
 
 	class Mesh
@@ -115,18 +115,16 @@ namespace PAGE
 			void remove_animation(std::string name);
 			Animation& get_animation(std::string name);
 
-			void get_num_joints();
-
 			void skeleton_to_array(std::vector<Matrix44f>* matrix_array)
 			{
-				skeleton_to_array(skeleton, matrix_array);
+				skeleton_to_array(&skeleton, matrix_array);
 			}
 
-			void skeleton_to_array(Joint joint, std::vector<Matrix44f>* matrix_array)
+			void skeleton_to_array(Joint* joint, std::vector<Matrix44f>* matrix_array)
 			{
-				matrix_array->push_back(joint.get_world_matrixF());
-				for (int i = 0; i < joint.get_num_children(); i++)
-					skeleton_to_array(*(joint.get_child(i)), matrix_array);
+				matrix_array->push_back(joint->get_world_matrixF());
+				for (int i = 0; i < joint->get_num_children(); i++)
+					skeleton_to_array(joint->get_child(i), matrix_array);
 			}
 
 		private:
